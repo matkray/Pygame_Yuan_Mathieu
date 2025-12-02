@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   id="svg13337"
+   sodipodi:docname="raindrop.svg"
+   viewBox="0 0 100 100"
+   version="1.1"
+   inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <defs
+     id="defs13339">
+    <filter
+       id="filter13207"
+       color-interpolation-filters="sRGB"
+       inkscape:collect="always"
+       x="-0.041684351"
+       y="-0.031679812"
+       width="1.0833687"
+       height="1.0633596">
+      <feGaussianBlur
+         id="feGaussianBlur13209"
+         stdDeviation="1.1184954"
+         inkscape:collect="always" />
+    </filter>
+    <filter
+       id="filter13197"
+       width="1.4587263"
+       y="-0.23234187"
+       x="-0.22936313"
+       height="1.4646837"
+       color-interpolation-filters="sRGB"
+       inkscape:collect="always">
+      <feGaussianBlur
+         id="feGaussianBlur13199"
+         stdDeviation="4.0396815"
+         inkscape:collect="always" />
+    </filter>
+    <radialGradient
+       id="radialGradient13308"
+       gradientUnits="userSpaceOnUse"
+       cy="131.6"
+       cx="-150.49"
+       r="27.879"
+       inkscape:collect="always">
+      <stop
+         id="stop13243"
+         style="stop-color:#ffffff"
+         offset="0" />
+      <stop
+         id="stop13245"
+         style="stop-color:#ffffff;stop-opacity:0"
+         offset="1" />
+    </radialGradient>
+    <filter
+       id="filter13278"
+       color-interpolation-filters="sRGB"
+       inkscape:collect="always"
+       x="-0.030373133"
+       y="-0.044184492"
+       width="1.0607463"
+       height="1.088369">
+      <feGaussianBlur
+         id="feGaussianBlur13280"
+         stdDeviation="0.73829597"
+         inkscape:collect="always" />
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     bordercolor="#666666"
+     inkscape:pageshadow="2"
+     inkscape:window-y="-11"
+     pagecolor="#ffffff"
+     inkscape:window-height="1694"
+     inkscape:grid-bbox="true"
+     inkscape:window-maximized="1"
+     inkscape:zoom="5.5"
+     inkscape:window-x="-11"
+     showgrid="true"
+     borderopacity="1.0"
+     inkscape:current-layer="layer1"
+     inkscape:cx="6.8181818"
+     inkscape:cy="32.090909"
+     inkscape:window-width="2880"
+     inkscape:pageopacity="0.0"
+     inkscape:document-units="px"
+     inkscape:showpageshadow="2"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1" />
+  <g
+     id="layer1"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     transform="translate(0,36)">
+    <g
+       id="g13282"
+       inkscape:export-ydpi="499.23294"
+       inkscape:export-filename="D:\ゆゆうさま\お絵かきノート\アイコン素材\raindrap_b.png"
+       transform="translate(180.66091,-124.46091)"
+       inkscape:export-xdpi="499.23294">
+      <path
+         id="path13201"
+         d="m -97.374,144.32 c 0,18.452 -14.416,33.41 -32.199,33.41 -17.783,0 -32.199,-14.958 -32.199,-33.41 0,-18.452 32.199,-51.325 32.199,-51.325 0,0 32.199,32.873 32.199,51.325 z"
+         sodipodi:nodetypes="ssscs"
+         style="fill:#000000;filter:url(#filter13207)"
+         inkscape:connector-curvature="0" />
+      <path
+         id="path9117"
+         sodipodi:nodetypes="ssscs"
+         style="fill:#83cadd"
+         inkscape:connector-curvature="0"
+         d="m -97.374,144.32 c 0,18.452 -14.416,33.41 -32.199,33.41 -17.783,0 -32.199,-14.958 -32.199,-33.41 0,-18.452 32.199,-51.325 32.199,-51.325 0,0 32.199,32.873 32.199,51.325 z" />
+      <path
+         id="path13219"
+         d="m -129.56,92.444 c 0,0 -32.219,32.861 -32.219,51.313 0,0.59785 0.0326,1.1911 0.0625,1.7812 18.659,-21.934 33.105,-26.857 51.219,-30.344 -8.9084,-12.369 -19.062,-22.75 -19.062,-22.75 z"
+         sodipodi:nodetypes="csccc"
+         style="fill:#ffffff;fill-opacity:0.26182"
+         inkscape:connector-curvature="0" />
+      <ellipse
+         id="path9121"
+         style="fill:#ffffff;filter:url(#filter13197)"
+         transform="matrix(0.27598,-0.37808,0.20114,0.1681,-194.35,122.77)"
+         cx="86.166267"
+         cy="151.81241"
+         rx="21.135122"
+         ry="20.864159" />
+      <circle
+         id="path13239"
+         style="fill:url(#radialGradient13308)"
+         transform="translate(21.62,14.508)"
+         cx="-150.48973"
+         cy="131.59888"
+         r="27.879004" />
+      <path
+         id="path13267"
+         d="m -100.92,135.76 c 0.29551,0.99553 0.50762,1.982 0.62389,2.9247 2.1109,17.115 -9.4546,32.625 -25.845,34.646 -13.649,1.6833 -26.324,-6.5241 -31.404,-19.198 4.4,13.97 17.756,23.295 32.216,21.511 16.39,-2.0215 27.985,-17.534 25.874,-34.65 -0.20519,-1.6638 -0.72654,-3.4203 -1.4643,-5.2342 z"
+         style="opacity:0.34528;fill:#000000;filter:url(#filter13278)"
+         inkscape:connector-curvature="0" />
+    </g>
+  </g>
+  <metadata
+     id="metadata1">
+    <rdf:RDF>
+      <cc:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
+        <dc:publisher>
+          <cc:Agent
+             rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:date>2012-06-23T11:07:12</dc:date>
+        <dc:description>Simple rain drop.</dc:description>
+        <dc:source>https://openclipart.org/detail/170872/raindrop1-by-yoshihiro-170872</dc:source>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>yoshihiro</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>rain .drop</rdf:li>
+            <rdf:li>water</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+</svg>

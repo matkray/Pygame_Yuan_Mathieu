@@ -1,0 +1,3 @@
+#resolution
+#character
+#backgruond
