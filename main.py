@@ -35,7 +35,7 @@ ghost_y = player_1.y
 played_before = False
 
 
-player_1.border = 1
+player_1.border = 3
 
 jump_frame = 0
 walk_frame = 0
@@ -72,7 +72,7 @@ for _ in range((width * height) // 1500):
 windlist = []
 
 width = WIDTH - 100
-height = 200
+height = 800
 for _ in range((width * height) // 3000):
     windlist.append(Wind(int(100), int(100), width, height, 0, player_1, 0, True))
 #end create wind#####################################
@@ -122,7 +122,7 @@ backgroundimage_nature = pygame.transform.scale(backgroundimage_nature, (WIDTH, 
 player_1.change_character("redhat")
 
 def ground():
-    var_check_ground = vertical_bottom_y - 25
+    var_check_ground = vertical_bottom_y - 10
     while True:
         if vertical_left_x > 0 and vertical_right_x < WIDTH and 0 < var_check_ground < HEIGHT:
                 color_bottom_left = screen.get_at((horizontal_left_x, int(var_check_ground)))
@@ -158,7 +158,6 @@ def ground():
         elif horizontal_left_x < WIDTH and horizontal_right_x > 0:
             player_1.ground = 2000
             break
-    print("ground: ", player_1.ground)
 
 def ceiling():
     var_check_ceiling = horizontal_top_y + 20
@@ -174,6 +173,15 @@ def ceiling():
         else:
             break
 
+def check_bottom():
+    if horizontal_left_x > 0 and horizontal_right_x < WIDTH and 0 < horizontal_bottom_y < HEIGHT:
+        color_bottom_left = screen.get_at((horizontal_left_x, horizontal_bottom_y))
+        color_bottom_right = screen.get_at((horizontal_right_x, horizontal_bottom_y))
+        if (color_bottom_left[:3] not in plaformscolor) and (color_bottom_right[:3] not in plaformscolor): #fall down if not on ground
+            check_fall(0)
+        elif player_1.state != "jump":
+            player_1.y = player_1.ground - player_1.height - 1
+
 def check_fall(k):
     ground()
     if player_1.state != "jump":
@@ -183,6 +191,70 @@ def check_fall(k):
         else:            
             player_1.y = player_1.ground - player_1.height - player_1.border
             player_1.vel_y = 0
+
+def check_ceiling():
+    if 0 < horizontal_right_x < WIDTH and 0 < horizontal_top_y < HEIGHT and 0 < horizontal_left_x < WIDTH:
+            color_top_right = screen.get_at((horizontal_right_x, horizontal_top_y))
+            color_top_left = screen.get_at((horizontal_left_x, horizontal_top_y))
+            if color_top_right[:3] in plaformscolor or color_top_left[:3] in plaformscolor:
+                ceiling()
+                player_1.y = player_1.ceiling + player_1.border
+                player_1.y += player_1.speed
+                player_1.vel_y = 0  # Stop upward movement on collision 
+    elif WIDTH >= horizontal_left_x > 0 and 0 < horizontal_top_y < HEIGHT:
+            color_top_left = screen.get_at((horizontal_left_x, horizontal_top_y))
+            if color_top_left[:3] in plaformscolor:
+                player_1.y += player_1.speed
+                player_1.vel_y = 0  # Stop upward movement on collision
+    elif horizontal_left_x <= 0 and WIDTH > horizontal_right_x > 0 and 0 < horizontal_top_y < HEIGHT:
+            color_top_right = screen.get_at((horizontal_right_x, horizontal_top_y))
+            if color_top_right[:3] in plaformscolor:
+                player_1.y += player_1.speed
+                player_1.vel_y = 0  # Stop upward movement on collision$
+
+def check_left():
+    if vertical_left_x > 0 and vertical_right_x <= WIDTH and vertical_bottom_y < HEIGHT and vertical_top_y > 0:
+            color_left_top = screen.get_at((vertical_left_x, vertical_top_y + 5))
+            color_left_bottom = screen.get_at((vertical_left_x, vertical_bottom_y - 5))
+            if color_left_top[:3] in plaformscolor or color_left_bottom[:3] in plaformscolor:
+                player_1.collision_left = True
+                if player_1.state == "jump" and right:
+                    player_1.vel_y = 20
+                else:
+                    if right:
+                        player_1.vel_x = player_1.speed
+                    else:
+                        player_1.vel_x = 0
+            elif left:
+                player_1.collision_left = False
+                player_1.vel_x = -player_1.speed
+            else:
+                player_1.collision_left = False
+    elif left:
+            player_1.vel_x = -player_1.speed
+        
+def check_right():
+        if vertical_right_x < WIDTH and player_1.x > 0 and player_1.y > 0 and vertical_bottom_y < HEIGHT:
+            color_right_top = screen.get_at((vertical_right_x , vertical_top_y + 5))
+            color_right_bottom = screen.get_at((vertical_right_x, vertical_bottom_y - 5))
+            if color_right_top[:3] in plaformscolor or color_right_bottom[:3] in plaformscolor:
+                player_1.collision_right = True
+                player_1.wind_component = 0
+                if player_1.state == "jump" and left:
+                    player_1.vel_y = 20
+                else:
+                    if left:
+                        player_1.vel_x = -player_1.speed
+                    else:
+                        player_1.vel_x = 0
+            elif right:
+                player_1.vel_x = player_1.speed
+                player_1.collision_right = False
+            else:
+                player_1.collision_right = False
+        elif right:
+            player_1.vel_x = player_1.speed
+
 
 def pause_function():
     if player_1.fail == False:
@@ -228,9 +300,9 @@ def reset_to_initial():
 
 while running:
     start = time.perf_counter()
-    horizontal_left_x = int(player_1.x + 1 - player_1.border)
+    horizontal_left_x = int(player_1.x)
     horizontal_bottom_y = int(player_1.y + player_1.height + player_1.border)
-    horizontal_right_x = int(player_1.x + player_1.width - player_1.border)
+    horizontal_right_x = int(player_1.x + player_1.width + player_1.border)
     horizontal_top_y = int(player_1.y - 1 - player_1.border)
 
     vertical_left_x = int(player_1.x - 2 - player_1.border)
@@ -288,73 +360,17 @@ while running:
         
         player_1.vel_x = 0
         #check left and right side of the person:
-        if vertical_right_x < WIDTH and player_1.x > 0 and player_1.y > 0 and vertical_bottom_y < HEIGHT:
-            color_right_top = screen.get_at((vertical_right_x , vertical_top_y + 5))
-            color_right_bottom = screen.get_at((vertical_right_x, vertical_bottom_y - 5))
-            if color_right_top[:3] in plaformscolor or color_right_bottom[:3] in plaformscolor:
-                if player_1.state == "jump" and left:
-                    player_1.vel_y = 20
-                else:
-                    if left:
-                        player_1.vel_x = -player_1.speed
-                    else:
-                        player_1.vel_x = 0
-            elif right:
-                player_1.vel_x = player_1.speed
-        elif right:
-            player_1.vel_x = player_1.speed
+        check_left()
+        check_right()
 
-
-        if vertical_left_x > 0 and vertical_right_x <= WIDTH and vertical_bottom_y < HEIGHT and vertical_top_y > 0:
-            color_left_top = screen.get_at((vertical_left_x, vertical_top_y + 5))
-            color_left_bottom = screen.get_at((vertical_left_x, vertical_bottom_y - 5))
-            if color_left_top[:3] in plaformscolor or color_left_bottom[:3] in plaformscolor:
-                if player_1.state == "jump" and right:
-                    player_1.vel_y = 20
-                else:
-                    if right:
-                        player_1.vel_x = player_1.speed
-                    else:
-                        player_1.vel_x = 0
-            elif left:
-                player_1.vel_x = -player_1.speed
-        elif left:
-            player_1.vel_x = -player_1.speed
-        
         #check top left and top right side of the person:
-        if 0 < horizontal_right_x < WIDTH and 0 < horizontal_top_y < HEIGHT and 0 < horizontal_left_x < WIDTH:
-            color_top_right = screen.get_at((horizontal_right_x, horizontal_top_y))
-            color_top_left = screen.get_at((horizontal_left_x, horizontal_top_y))
-            if color_top_right[:3] in plaformscolor or color_top_left[:3] in plaformscolor:
-                ceiling()
-                player_1.y = player_1.ceiling + player_1.border
-                player_1.y += player_1.speed
-                player_1.vel_y = 0  # Stop upward movement on collision 
-        elif WIDTH >= horizontal_left_x > 0 and 0 < horizontal_top_y < HEIGHT:
-            color_top_left = screen.get_at((horizontal_left_x, horizontal_top_y))
-            if color_top_left[:3] in plaformscolor:
-                player_1.y += player_1.speed
-                player_1.vel_y = 0  # Stop upward movement on collision
-        elif horizontal_left_x <= 0 and WIDTH > horizontal_right_x > 0 and 0 < horizontal_top_y < HEIGHT:
-            color_top_right = screen.get_at((horizontal_right_x, horizontal_top_y))
-            if color_top_right[:3] in plaformscolor:
-                player_1.y += player_1.speed
-                player_1.vel_y = 0  # Stop upward movement on collision
+        check_ceiling()
         check_fall(1)
       
         if player_1.state != "jump":
             #check bottom left and right side of the person:
-            if horizontal_left_x > 0 and horizontal_right_x < WIDTH and 0 < horizontal_bottom_y < HEIGHT:
-                color_bottom_left = screen.get_at((horizontal_left_x, horizontal_bottom_y))
-                
-                color_bottom_right = screen.get_at((horizontal_right_x, horizontal_bottom_y))
-                if (color_bottom_left[:3] not in plaformscolor) and (color_bottom_right[:3] not in plaformscolor): #fall down if not on ground
-                    check_fall(0)
-                elif player_1.state != "jump":
-                    player_1.y = player_1.ground - player_1.height - 1
+            check_bottom()
                     
-
-        
         if timer == True:
             time_2 += 1
             candle.percentageheight -= 0.02
@@ -368,6 +384,9 @@ while running:
 
     for raindrop in raindrops:
         raindrop.update()
+
+    for wind in windlist:
+        wind.update()
 
     for wind in windlist:
         wind.update()
@@ -389,7 +408,7 @@ while running:
         # draw ghost:
         if played_before == True:
             if timer == True:
-                if len(ghost_best) > ghost_frame + 1:   
+                if len(ghost_best) > ghost_frame + 1:
                     ghost_frame += 1
                     ghost_x, ghost_y, ghost_current_page = ghost_best[ghost_frame]
                     if ghost_current_page == config.current_page:
@@ -432,6 +451,7 @@ while running:
         
         for wind in windlist:
             draw = wind.draw(screen)
+            config.check_wind == True
 
         for platform in Platform.instances:
             draw = platform.draw(screen)
@@ -480,6 +500,8 @@ while running:
     screen.blit(settings, settings_rect)
     screen.blit(restart, restart_rect)
     screen.blit(pause, pause_rect)
+
+    
 
     pygame.display.flip()
 

@@ -37,6 +37,8 @@ class Person:
         self.leftwall = False
         self.wind_component = 0
         self.border = 1
+        self.collision_right = False
+        self.collision_left = False
 
         
         
@@ -88,8 +90,9 @@ class Person:
                     self.vel_y = 0
     
             self.x += self.vel_x + self.wind_component
-            self.border = abs(self.wind_component) + 1
-            print(self.border, self.y - before, hallo)
+            self.border = self.wind_component + 1
+            #print(self.wind_component if self.wind_component != 0 else "", self.border)
+            
 
 
             if self.x >= WIDTH:

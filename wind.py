@@ -16,6 +16,7 @@ class Wind():
         self.player_1 = player
         self.number = number
         self.right = right #True -> right, False -> left
+        self.component = False
         if self.right == False:
             self.vel_x = -2
         else:
@@ -58,14 +59,21 @@ class Wind():
                 self.wind_x += self.rect_width
             
             self.rect_wind = pygame.Rect(self.wind_x, self.wind_y, self.wind_width, self.wind_height)
-
-            if self.player_1.rectperson.colliderect(self.rect_total):
-                if self.right == False:
-                    self.player_1.wind_component = -2
-                else:
-                    self.player_1.wind_component = 2
-            else:
+            if config.check_wind:
                 self.player_1.wind_component = 0
+            if self.player_1.rectperson.colliderect(self.rect_total) and config.check_wind:
+                    if self.right:
+                        if self.player_1.collision_right:
+                            self.player_1.wind_component = 0
+                        else:
+                            self.player_1.wind_component = 2
+                            config.check_wind == False
+                    else:
+                        if self.player_1.collision_left:
+                            self.player_1.wind_component = 0
+                        else:
+                            self.player_1.wind_component = -2
+                            config.check_wind == False
      
     def draw(self, screen):
         if config.current_page == self.page and self.player_1.fail == False:

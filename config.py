@@ -2,6 +2,7 @@ import constants
 
 current_page = 0
 max_pages = 0
+check_wind = True
 
 """#page one platforms::###############################
 platforms = [
