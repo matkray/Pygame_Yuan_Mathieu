@@ -43,7 +43,7 @@ walk_frame = 0
 green = (185, 145, 100)
 brown = (144, 187, 66)
 
-plaformscolor = [
+platformscolor = [
     green,
     brown
 ]
@@ -127,7 +127,7 @@ def ground():
         if vertical_left_x > 0 and vertical_right_x < WIDTH and 0 < var_check_ground < HEIGHT:
                 color_bottom_left = screen.get_at((horizontal_left_x, int(var_check_ground)))
                 color_bottom_right = screen.get_at((horizontal_right_x, int(var_check_ground)))
-                if (color_bottom_left[:3] in plaformscolor) or (color_bottom_right[:3] in plaformscolor):
+                if (color_bottom_left[:3] in platformscolor) or (color_bottom_right[:3] in platformscolor):
                     if player_1.ground != var_check_ground - player_1.border:
                         player_1.ground = var_check_ground - player_1.border
                     break
@@ -135,7 +135,7 @@ def ground():
                     var_check_ground += 1
         elif (vertical_right_x >= WIDTH and 0 < var_check_ground < HEIGHT and WIDTH > horizontal_left_x > 0):
             color_bottom_left = screen.get_at((horizontal_left_x, int(var_check_ground)))
-            if (color_bottom_left[:3] in plaformscolor):
+            if (color_bottom_left[:3] in platformscolor):
                     player_1.ground = var_check_ground - player_1.border
                     break
             else:
@@ -143,7 +143,7 @@ def ground():
         
         elif vertical_left_x <= 0 and var_check_ground < HEIGHT:
             color_bottom_right = screen.get_at((horizontal_right_x, int(var_check_ground)))
-            if (color_bottom_right[:3] in plaformscolor):
+            if (color_bottom_right[:3] in platformscolor):
                     player_1.ground = var_check_ground - player_1.border
                     break
             else:
@@ -166,7 +166,7 @@ def ceiling():
         if vertical_left_x > 0 and vertical_right_x < WIDTH:
             color_top_left = screen.get_at((vertical_left_x, int(var_check_ceiling)))
             color_top_right = screen.get_at((vertical_right_x, int(var_check_ceiling)))
-            if (color_top_left[:3] in plaformscolor) or (color_top_right[:3] in plaformscolor):
+            if (color_top_left[:3] in platformscolor) or (color_top_right[:3] in platformscolor):
                 player_1.ceiling = var_check_ceiling
                 break
             else:
@@ -291,7 +291,7 @@ while running:
         if vertical_right_x < WIDTH and player_1.x > 0 and player_1.y > 0 and vertical_bottom_y < HEIGHT:
             color_right_top = screen.get_at((vertical_right_x , vertical_top_y + 5))
             color_right_bottom = screen.get_at((vertical_right_x, vertical_bottom_y - 5))
-            if color_right_top[:3] in plaformscolor or color_right_bottom[:3] in plaformscolor:
+            if color_right_top[:3] in platformscolor or color_right_bottom[:3] in platformscolor:
                 if player_1.state == "jump" and left:
                     player_1.vel_y = 20
                 else:
@@ -308,7 +308,7 @@ while running:
         if vertical_left_x > 0 and vertical_right_x <= WIDTH and vertical_bottom_y < HEIGHT and vertical_top_y > 0:
             color_left_top = screen.get_at((vertical_left_x, vertical_top_y + 5))
             color_left_bottom = screen.get_at((vertical_left_x, vertical_bottom_y - 5))
-            if color_left_top[:3] in plaformscolor or color_left_bottom[:3] in plaformscolor:
+            if color_left_top[:3] in platformscolor or color_left_bottom[:3] in platformscolor:
                 if player_1.state == "jump" and right:
                     player_1.vel_y = 20
                 else:
@@ -325,19 +325,19 @@ while running:
         if 0 < horizontal_right_x < WIDTH and 0 < horizontal_top_y < HEIGHT and 0 < horizontal_left_x < WIDTH:
             color_top_right = screen.get_at((horizontal_right_x, horizontal_top_y))
             color_top_left = screen.get_at((horizontal_left_x, horizontal_top_y))
-            if color_top_right[:3] in plaformscolor or color_top_left[:3] in plaformscolor:
+            if color_top_right[:3] in platformscolor or color_top_left[:3] in platformscolor:
                 ceiling()
                 player_1.y = player_1.ceiling + player_1.border
                 player_1.y += player_1.speed
                 player_1.vel_y = 0  # Stop upward movement on collision 
         elif WIDTH >= horizontal_left_x > 0 and 0 < horizontal_top_y < HEIGHT:
             color_top_left = screen.get_at((horizontal_left_x, horizontal_top_y))
-            if color_top_left[:3] in plaformscolor:
+            if color_top_left[:3] in platformscolor:
                 player_1.y += player_1.speed
                 player_1.vel_y = 0  # Stop upward movement on collision
         elif horizontal_left_x <= 0 and WIDTH > horizontal_right_x > 0 and 0 < horizontal_top_y < HEIGHT:
             color_top_right = screen.get_at((horizontal_right_x, horizontal_top_y))
-            if color_top_right[:3] in plaformscolor:
+            if color_top_right[:3] in platformscolor:
                 player_1.y += player_1.speed
                 player_1.vel_y = 0  # Stop upward movement on collision
         check_fall(1)
@@ -348,7 +348,7 @@ while running:
                 color_bottom_left = screen.get_at((horizontal_left_x, horizontal_bottom_y))
                 
                 color_bottom_right = screen.get_at((horizontal_right_x, horizontal_bottom_y))
-                if (color_bottom_left[:3] not in plaformscolor) and (color_bottom_right[:3] not in plaformscolor): #fall down if not on ground
+                if (color_bottom_left[:3] not in platformscolor) and (color_bottom_right[:3] not in platformscolor): #fall down if not on ground
                     check_fall(0)
                 elif player_1.state != "jump":
                     player_1.y = player_1.ground - player_1.height - 1
@@ -365,6 +365,29 @@ while running:
         
         
     player_1.update(horizontal_right_x)
+
+    # Checking if wind pushes player into a platform
+    if player_1.command == True and player_1.wind_component != 0:
+        # recalculate collision after wind
+        check_right_x = int(player_1.x + player_1.width + 1 + player_1.border)
+        check_left_x = int(player_1.x - 2 - player_1.border)
+        check_top_y = int(player_1.y -player_1.border)
+        check_bottom_y = int(player_1.y + player_1.height + player_1.border)
+
+        #Check right side collision
+        if check_right_x < WIDTH and player_1.x > 0 and player_1.y > 0 and check_bottom_y < HEIGHT:
+            color_right_top = screen.get_at((check_right_x, check_top_y + 5))
+            color_right_bottom = screen.get_at((check_right_x, check_bottom_y - 5))
+            if color_right_top[:3] in platformscolor or color_right_bottom[:3] in platformscolor) and player_1.wind_component > 0:
+                player_1.x -= player_1.wind_component
+                player_1.wind_component = 0
+
+        if check_left_x > 0 and check_right_x <= WIDTH and check_bottom_y < HEIGHT:
+            color_left_top = screen.get_at((check_left_x, check_top_y + 5))
+            color_left_bottom = screen.get_at((check_left_x, check_bottom_Y - 5))
+            if (color_left_top[:3] in platformscolor or color_left_bottom[:3] in platformscolor) and player_1.wind_component < 0:
+                player_1.x -= player_1.wind_component
+                player_1.wind_component = 0
 
     for raindrop in raindrops:
         raindrop.update()
@@ -413,7 +436,7 @@ while running:
         if vertical_left_x - difference > 0 and vertical_bottom_y < HEIGHT and vertical_top_y > 0:
             color_left_top = screen.get_at((int(vertical_left_x - difference), vertical_top_y + 5))
             color_left_bottom = screen.get_at((int(vertical_left_x - difference), vertical_bottom_y - 5))
-            if color_left_top[:3] in plaformscolor or color_left_bottom[:3] in plaformscolor:
+            if color_left_top[:3] in platformscolor or color_left_bottom[:3] in platformscolor:
                 player_1.leftwall = True
             else:
                 player_1.leftwall = False
