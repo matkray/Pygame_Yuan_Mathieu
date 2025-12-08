@@ -120,6 +120,10 @@ backgroundimage_nature = pygame.transform.scale(backgroundimage_nature, (WIDTH, 
 player_1.change_character("redhat")
 
 def ground():
+    # Only skip ground detection during upward jump if wind is pushing the player
+    if player_1.state == "jump" and player_1.vel_y > 0 and player_1.wind_component != 0:
+        return
+
     var_check_ground = vertical_bottom_y - 10
     while True:
         if vertical_left_x > 0 and vertical_right_x < WIDTH and 0 < var_check_ground < HEIGHT:
