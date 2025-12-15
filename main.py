@@ -87,12 +87,12 @@ platform_0_6 = Platform(500, 400, 200, 200, True, 0, -200)
 #0 right:
 platform_0_7 = Platform(WIDTH - 70,0,70, 0.5*HEIGHT, False, 0, 0)
 plaform_0_8 = Platform(WIDTH - 70,0.7*HEIGHT,70, 0.4*HEIGHT, False, 0, 0)
-
+"""
 #1 left:
 platform_1_1 = Platform(0,0,70, 0.5*HEIGHT, False, 1, 0)
 platform_1_2 = Platform(0,0.7*HEIGHT,70, 0.4*HEIGHT, False, 1, 0)
 #1 center:
-platform_1_3 = Platform(70, HEIGHT - 49, 0.5 * WIDTH, 50, False, 1, 0)
+platform_1_3 = Platform(70, HEIGHT - 49, 0.9 * WIDTH, 50, False, 1, 0)
 platform_1_4 = Platform(200, 700, 200, 100, False, 1, 0)
 platform_1_5 = Platform(800, 200, 200, 100, False, 1, 0)
 platform_1_6 = Platform(500, 400, 200, 100, False, 1, 0)
@@ -108,7 +108,7 @@ platform_2_3 = Platform(0, HEIGHT - 49, 0.5 * WIDTH, 50, False, 2, 0)
 platform_2_4 = Platform(0.5 * WIDTH, HEIGHT - 99, 0.5 * WIDTH, 100, False, 2, 0)
 platform_2_5 = Platform(200, 700, 200, 100, False, 2, 0)
 platform_2_6 = Platform(800, 200, 200, 100, False, 2, 0)
-platform_2_7 = Platform(500, 400, 200, 100, False, 2, 0)
+platform_2_7 = Platform(500, 400, 200, 100, False, 2, 0)"""
 #2 right:
 #end create Platform:#################################
 
@@ -120,6 +120,10 @@ backgroundimage_nature = pygame.transform.scale(backgroundimage_nature, (WIDTH, 
 player_1.change_character("redhat")
 
 def ground():
+        # Only skip ground detection during upward jump if wind is pushing the player
+    if player_1.state == "jump" and player_1.vel_y > 0 and player_1.wind_component != 0:
+        return
+
     var_check_ground = vertical_bottom_y - 10
     while True:
         if vertical_left_x > 0 and vertical_right_x < WIDTH and 0 < var_check_ground < HEIGHT:
@@ -431,7 +435,7 @@ while running:
             candle.percentageheight = round(candle.percentageheight, 2)
 
         if timer == True and player_1.command == True:
-            ghost_current.append((player_1.x, player_1.y, config.current_page))
+            ghost_current.append((player_1.x, player_1.y, config.current_page, player_1.pngpath))
         
         
     player_1.update(horizontal_right_x)
@@ -476,27 +480,10 @@ while running:
     #draw#####################################################
     #screen.fill("black")
 
-    
-
     if player_1.y > HEIGHT:
         game_over()
     
     if player_1.success == False and player_1.fail == False:
-        # draw ghost:
-        if played_before == True:
-            if timer == True:
-                if len(ghost_best) > ghost_frame + 1:
-                    ghost_frame += 1
-                    ghost_x, ghost_y, ghost_current_page = ghost_best[ghost_frame]
-                    if ghost_current_page == config.current_page:
-                        ghost_rect = pygame.Rect(ghost_x, ghost_y, player_1.width, player_1.height)
-                        pygame.draw.rect(screen, (100,100,100), ghost_rect)
-            elif ghost_frame != 0:
-                ghost_rect = pygame.Rect(ghost_x, ghost_y, player_1.width, player_1.height)
-                pygame.draw.rect(screen, (100,100,100), ghost_rect)
-
-
-        
         widthbefore = player_1.width
 
         image = pygame.image.load(player_1.pngpath).convert_alpha()
@@ -513,13 +500,37 @@ while running:
                 player_1.leftwall = True
             else:
                 player_1.leftwall = False
-
         
         if player_1.leftwall == False:
             player_1.x = player_1.x - player_1.width + widthbefore
-
         
         screen.blit(backgroundimage_nature, (0, 0))
+
+        # draw ghost:
+        if played_before == True:
+            if timer == True:
+                if len(ghost_best) > ghost_frame + 1:
+                    ghost_frame += 1
+                    ghost_x, ghost_y, ghost_current_page, ghost_pngpath = ghost_best[ghost_frame]
+                    if ghost_current_page == config.current_page:                        
+
+                        ghost_image = pygame.image.load(ghost_pngpath).convert_alpha()
+                        ghost_image = pygame.transform.scale(
+                            ghost_image, (player_1.width, player_1.height)
+                        )
+
+                        # convert image to grayscale
+                        for x in range(ghost_image.get_width()):
+                            for y in range(ghost_image.get_height()):
+                                r, g, b, a = ghost_image.get_at((x, y))
+                                gray = int(0.299*r + 0.587*g + 0.114*b)  # formel für grayscale
+                                ghost_image.set_at((x, y), (gray, gray, gray, a))
+                        
+                        ghost_rect = pygame.Rect(ghost_x, ghost_y, player_1.width, player_1.height)   # position + siz
+                        screen.blit(ghost_image, ghost_rect)
+            elif ghost_frame != 0:
+                ghost_rect = pygame.Rect(ghost_x, ghost_y, player_1.width, player_1.height)
+                pygame.draw.rect(screen, (100,100,100), ghost_rect)
 
         draw = player_1.draw(screen)
 
@@ -532,6 +543,8 @@ while running:
 
         for platform in Platform.instances:
             draw = platform.draw(screen)
+
+        
 
     if candle.percentageheight <= 0:
          game_over()
@@ -578,7 +591,6 @@ while running:
     screen.blit(restart, restart_rect)
     screen.blit(pause, pause_rect)
 
-    
 
     pygame.display.flip()
 
