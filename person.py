@@ -12,12 +12,12 @@ class Person:
         self.x_default = 80
         self.x = self.x_default
 
-        self.y_default = HEIGHT - self.height - 50
+        self.y_default = HEIGHT - 100 - self.height
         self.y = self.y_default
 
         self.speed_x = 0
         self.gravity = -1.5
-        self.ground = HEIGHT - self.height - 50
+        self.ground = HEIGHT - 100
         self.vel_y = 0  # Vertical velocity for jumping
         self.vel_x = 0
         self.rectperson = pygame.Rect(self.x, self.y, self.width, self.height)
@@ -25,7 +25,7 @@ class Person:
         self.success = False
         self.ceiling = 0
         self.fail = False
-        self.state = "jump" #or jump, dead, run, walk
+        self.state = "idle" #or jump, dead, run, walk, idle
         self.character = "dinosaurier" #or redhat
         self.maxrunframe = 8
         self.pngpath = f"Pygame_Yuan_Mathieu/png_{self.character}/Idle.png"
@@ -39,6 +39,11 @@ class Person:
         self.border = 1
         self.collision_right = False
         self.collision_left = False
+        self.side_collision_wind_push = False
+        self.locked_y_position = 0
+        self.has_side_collision = False
+        self.just_jumped = False
+        self.jump_start_ground = HEIGHT - 100  # Store ground value at jump start
 
         
         
@@ -47,7 +52,7 @@ class Person:
         self.x = self.x_default
         self.y = self.y_default
         self.fail = False
-        self.ground = HEIGHT
+        self.ground = HEIGHT - 100
         self.flipped = False
         #self.jumpframe = 0
         self.walkframe = 0
@@ -57,12 +62,25 @@ class Person:
         self.vel_x = 0
         self.vel_y = 0
         self.wind_component = 0
+        self.state = "idle"
+        self.side_collision_wind_push = False
+        self.has_side_collision = False
+        self.collision_right = False
+        self.collision_left = False
+        self.just_jumped = False
+        self.border = 1
+        self.jump_start_ground = HEIGHT - 100
+        self.start = True
         
 
     def jump(self):
-        if self.state != "jump":  # Only start jump if on ground
+        if self.vel_y <= 15:
             self.state = "jump"
             self.vel_y = 20
+            self.side_collision_wind_push = False
+            self.has_side_collision = False
+            # Store the ground value at jump start to prevent interference during jump
+            self.jump_start_ground = self.ground
     
     def change_character(self, character):
         self.character = character
@@ -78,19 +96,45 @@ class Person:
             before = self.y
             self.rectperson = pygame.Rect(self.x, self.y, self.width, self.height)
             if self.state == "jump":
-                self.vel_y += self.gravity  # Apply gravity
-                self.y -= self.vel_y  # Update position based on velocity
-
-                if self.y + self.height >= self.ground:  # Stop falling at ground
-                    self.y = self.ground - self.height
-                    if self.vel_x == 0:
-                        self.state = "idle"
+                current_bottom = self.y + self.height
+                # When jumping upward, completely ignore ground checks to reach maximum height
+                if self.vel_y > 0:
+                    self.vel_y += self.gravity
+                    self.y -= self.vel_y
+                elif self.vel_y <= 0:
+                    # Only check ground when falling or at rest
+                    if current_bottom < self.ground:
+                        # Still falling, continue falling
+                        self.vel_y += self.gravity
+                        self.y -= self.vel_y
                     else:
-                        self.state = "walk"
+                        # Landed on ground
+                        self.y = self.ground - self.height - self.border
+                        self.vel_y = 0
+                        self.state = "idle" if self.vel_x == 0 else "walk"
+            else:
+                # Don't reset vel_y when falling - let check_fall() handle velocity accumulation
+                # Only reset if we're actually on the ground (check_fall will set it to 0 when on ground)
+                current_bottom = self.y + self.height + self.border
+                if current_bottom >= self.ground:
+                    # On ground, reset velocity
                     self.vel_y = 0
+                # If falling (current_bottom < self.ground), keep vel_y so it can accumulate in check_fall()
     
-            self.x += self.vel_x + self.wind_component
-            self.border = self.wind_component + 1
+            # Prevent wind from pushing into walls
+            wind_x = self.wind_component
+            if self.collision_right and wind_x > 0:
+                wind_x = 0
+            if self.collision_left and wind_x < 0:
+                wind_x = 0
+            
+            self.x += self.vel_x + wind_x
+            # Only stabilize border when against walls and NOT jumping (prevents interference with jump physics)
+            if (self.collision_right or self.collision_left) and self.state != "jump":
+                # Keep border at minimum when against walls to prevent position changes
+                self.border = 1
+            else:
+                self.border = abs(self.wind_component) + 1
             #print(self.wind_component if self.wind_component != 0 else "", self.border)
             
 
@@ -115,13 +159,13 @@ class Person:
                     self.jumpframe = 8"""
                 self.pngpath = f"Pygame_Yuan_Mathieu/png_{self.character}/Jump.png"
             elif self.vel_x == 0:
-                self.state == "idle"
+                self.state = "idle"
                 self.jumpframe = 0
                 self.walkframe = 0
                 self.pngpath = f"Pygame_Yuan_Mathieu/png_{self.character}/Idle.png"
-            elif self.vel_y == 0:
+            else:
                 self.jumpframe = 0
-                self.state == "walk"
+                self.state = "walk"
                 self.walkframe += 0.25
                 self.walkframe = self.walkframe % (self.maxrunframe - 1)
                 self.pngpath = f"Pygame_Yuan_Mathieu/png_{self.character}/Run ({round(self.walkframe) + 1}).png"
