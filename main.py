@@ -87,7 +87,7 @@ platform_0_6 = Platform(500, 400, 200, 200, True, 0, -200)
 #0 right:
 platform_0_7 = Platform(WIDTH - 70,0,70, 0.5*HEIGHT, False, 0, 0)
 plaform_0_8 = Platform(WIDTH - 70,0.7*HEIGHT,70, 0.4*HEIGHT, False, 0, 0)
-"""
+
 #1 left:
 platform_1_1 = Platform(0,0,70, 0.5*HEIGHT, False, 1, 0)
 platform_1_2 = Platform(0,0.7*HEIGHT,70, 0.4*HEIGHT, False, 1, 0)
@@ -108,12 +108,12 @@ platform_2_3 = Platform(0, HEIGHT - 49, 0.5 * WIDTH, 50, False, 2, 0)
 platform_2_4 = Platform(0.5 * WIDTH, HEIGHT - 99, 0.5 * WIDTH, 100, False, 2, 0)
 platform_2_5 = Platform(200, 700, 200, 100, False, 2, 0)
 platform_2_6 = Platform(800, 200, 200, 100, False, 2, 0)
-platform_2_7 = Platform(500, 400, 200, 100, False, 2, 0)"""
+platform_2_7 = Platform(500, 400, 200, 100, False, 2, 0)
 #2 right:
 #end create Platform:#################################
 
 #background:#########################################
-backgroundimage_nature = pygame.image.load("images/nature.jpg").convert()
+backgroundimage_nature = pygame.image.load("Pygame_Yuan_Mathieu/images/nature.jpg").convert()
 backgroundimage_nature = pygame.transform.scale(backgroundimage_nature, (WIDTH, HEIGHT))
 #end background######################################
 
@@ -370,9 +370,9 @@ while running:
                     player_1.settings_page = False
                     player_1.start = True
                 pause_function()
-                
-            
-    
+               
+
+
     if player_1.command == True:
         keys = pygame.key.get_pressed()
         if keys[pygame.K_RIGHT] and not keys[pygame.K_LEFT]:
@@ -695,6 +695,9 @@ while running:
     
     if player_1.settings_page == True:
         screen.fill("black")
+        #here comes the settings page:
+        
+
 
     #navigation bar:
     pause = Antonio_font.render(pause_text, True, (0, 0, 0))
