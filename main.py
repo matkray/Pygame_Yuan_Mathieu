@@ -113,7 +113,7 @@ platform_2_7 = Platform(500, 400, 200, 100, False, 2, 0)"""
 #end create Platform:#################################
 
 #background:#########################################
-backgroundimage_nature = pygame.image.load("Pygame_Yuan_Mathieu/images/nature.jpg").convert()
+backgroundimage_nature = pygame.image.load("images/nature.jpg").convert()
 backgroundimage_nature = pygame.transform.scale(backgroundimage_nature, (WIDTH, HEIGHT))
 #end background######################################
 
@@ -125,29 +125,55 @@ def ground():
         return
     
     var_check_ground = vertical_bottom_y - 10
+    player_bottom_y = vertical_bottom_y  # Current bottom position of player
     while True:
         if vertical_left_x > 0 and vertical_right_x < WIDTH and 0 < var_check_ground < HEIGHT:
                 color_bottom_left = screen.get_at((horizontal_left_x, int(var_check_ground)))
                 color_bottom_right = screen.get_at((horizontal_right_x, int(var_check_ground)))
                 if (color_bottom_left[:3] in platformscolor) or (color_bottom_right[:3] in platformscolor):
-                    if player_1.ground != var_check_ground - player_1.border:
-                        player_1.ground = var_check_ground - player_1.border
-                    break
+                    detected_ground = var_check_ground - player_1.border
+                    # The platform must be at or below the player's current bottom position
+                    if var_check_ground >= player_bottom_y:
+                        # NEVER update ground when jumping upward - prevents jump cancellation at any height
+                        if player_1.state == "jump" and player_1.vel_y > 0:
+                            # Don't update ground at all during upward jumps, regardless of wall contact
+                            break
+                        else:
+                            # When falling or on ground, allow ground detection
+                            if player_1.ground != detected_ground:
+                                player_1.ground = detected_ground
+                            break
+                    else:
+                        var_check_ground += 1
                 else:
                     var_check_ground += 1
         elif (vertical_right_x >= WIDTH and 0 < var_check_ground < HEIGHT and WIDTH > horizontal_left_x > 0):
             color_bottom_left = screen.get_at((horizontal_left_x, int(var_check_ground)))
             if (color_bottom_left[:3] in platformscolor):
-                    player_1.ground = var_check_ground - player_1.border
-                    break
+                    detected_ground = var_check_ground - player_1.border
+                    if var_check_ground >= player_bottom_y:
+                        # NEVER update ground when jumping upward - prevents jump cancellation
+                        if player_1.state == "jump" and player_1.vel_y > 0:
+                            break
+                        player_1.ground = detected_ground
+                        break
+                    else:
+                        var_check_ground += 1
             else:
                 var_check_ground += 1
         
         elif vertical_left_x <= 0 and var_check_ground < HEIGHT:
             color_bottom_right = screen.get_at((horizontal_right_x, int(var_check_ground)))
             if (color_bottom_right[:3] in platformscolor):
-                    player_1.ground = var_check_ground - player_1.border
-                    break
+                    detected_ground = var_check_ground - player_1.border
+                    if var_check_ground >= player_bottom_y:
+                        # NEVER update ground when jumping upward - prevents jump cancellation
+                        if player_1.state == "jump" and player_1.vel_y > 0:
+                            break
+                        player_1.ground = detected_ground
+                        break
+                    else:
+                        var_check_ground += 1
             else:
                 var_check_ground += 1
 
@@ -182,16 +208,23 @@ def check_bottom():
         if (color_bottom_left[:3] not in platformscolor) and (color_bottom_right[:3] not in platformscolor): #fall down if not on ground
             check_fall(0)
         elif player_1.state != "jump":
-            player_1.y = player_1.ground - player_1.height - 1
+            # Use consistent ground positioning
+            player_1.y = player_1.ground - player_1.height - player_1.border
 
 def check_fall(k):
-    ground()
+    # Don't update ground when jumping upward (prevents jump cancellation)
+    if not (player_1.state == "jump" and player_1.vel_y > 0):
+        ground()
     if player_1.state != "jump":
-        if horizontal_bottom_y + player_1.border < player_1.ground:
+        current_bottom = player_1.y + player_1.height + player_1.border
+        if current_bottom < player_1.ground:
             player_1.vel_y += k * player_1.gravity  # Apply gravity
             player_1.y -= player_1.vel_y
-        else:            
-            player_1.y = player_1.ground - player_1.height - player_1.border
+        else:
+            # Only adjust position if significantly off ground to prevent micro-adjustments
+            target_y = player_1.ground - player_1.height - player_1.border
+            if abs(player_1.y - target_y) > 0.5:  # Only adjust if more than 0.5 pixels off
+                player_1.y = target_y
             player_1.vel_y = 0
 
 def check_ceiling():
@@ -212,7 +245,7 @@ def check_ceiling():
             color_top_right = screen.get_at((horizontal_right_x, horizontal_top_y))
             if color_top_right[:3] in platformscolor:
                 player_1.y += player_1.speed
-                player_1.vel_y = 0  # Stop upward movement on collision$
+                player_1.vel_y = 0  # Stop upward movement on collision
 
 def check_left():
     if vertical_left_x > 0 and vertical_right_x <= WIDTH and vertical_bottom_y < HEIGHT and vertical_top_y > 0:
@@ -352,27 +385,40 @@ while running:
         else:
             left = False
 
-        if keys[pygame.K_DOWN]:
-            player_1.gravity = -3
-            
-        elif keys[pygame.K_UP]:
-            player_1.gravity = -0.5
+        # Only allow gravity modification when jumping (prevents slow fall when not jumping)
+        if player_1.state == "jump":
+            if keys[pygame.K_DOWN]:
+                player_1.gravity = -3
+            elif keys[pygame.K_UP]:
+                player_1.gravity = -0.5
+            else:
+                player_1.gravity = -1.5
         else:
             player_1.gravity = -1.5
         
         player_1.vel_x = 0
+        player_1.collision_right = False
+        player_1.collision_left = False
+        
         #check left and right side of the person:
         if vertical_right_x < WIDTH and player_1.x > 0 and player_1.y > 0 and vertical_bottom_y < HEIGHT:
             color_right_top = screen.get_at((vertical_right_x , vertical_top_y + 5))
             color_right_bottom = screen.get_at((vertical_right_x, vertical_bottom_y - 5))
             if color_right_top[:3] in platformscolor or color_right_bottom[:3] in platformscolor:
-                if player_1.state == "jump" and left:
+                # Collision detected on right side
+                player_1.collision_right = True
+                if player_1.x + player_1.width > vertical_right_x:
+                    # Player is inside the wall, push them back
+                    player_1.x = vertical_right_x - player_1.width
+                if player_1.wind_component > 0:
+                    player_1.wind_component = 0
+                if right:
+                    player_1.vel_x = 0
+                elif left:
+                    player_1.vel_x = -player_1.speed
+                # Wall jump mechanic (only if moving away from wall)
+                if player_1.state == "jump" and left and player_1.vel_y > 0:
                     player_1.vel_y = 20
-                else:
-                    if left:
-                        player_1.vel_x = -player_1.speed
-                    else:
-                        player_1.vel_x = 0
             elif right:
                 player_1.vel_x = player_1.speed
         elif right:
@@ -383,38 +429,49 @@ while running:
             color_left_top = screen.get_at((vertical_left_x, vertical_top_y + 5))
             color_left_bottom = screen.get_at((vertical_left_x, vertical_bottom_y - 5))
             if color_left_top[:3] in platformscolor or color_left_bottom[:3] in platformscolor:
-                if player_1.state == "jump" and right:
+                player_1.collision_left = True
+                if player_1.x < vertical_left_x:
+                    player_1.x = vertical_left_x
+                if player_1.wind_component < 0:
+                    player_1.wind_component = 0
+                if left:
+                    player_1.vel_x = 0
+                elif right:
+                    player_1.vel_x = player_1.speed
+                # Wall jump mechanic (only if moving away from wall)
+                if player_1.state == "jump" and right and player_1.vel_y > 0:
                     player_1.vel_y = 20
-                else:
-                    if right:
-                        player_1.vel_x = player_1.speed
-                    else:
-                        player_1.vel_x = 0
             elif left:
                 player_1.vel_x = -player_1.speed
         elif left:
             player_1.vel_x = -player_1.speed
         
         #check top left and top right side of the person:
-        if 0 < horizontal_right_x < WIDTH and 0 < horizontal_top_y < HEIGHT and 0 < horizontal_left_x < WIDTH:
-            color_top_right = screen.get_at((horizontal_right_x, horizontal_top_y))
-            color_top_left = screen.get_at((horizontal_left_x, horizontal_top_y))
-            if color_top_right[:3] in platformscolor or color_top_left[:3] in platformscolor:
-                ceiling()
-                player_1.y = player_1.ceiling + player_1.border
-                player_1.y += player_1.speed
-                player_1.vel_y = 0  # Stop upward movement on collision 
-        elif WIDTH >= horizontal_left_x > 0 and 0 < horizontal_top_y < HEIGHT:
-            color_top_left = screen.get_at((horizontal_left_x, horizontal_top_y))
-            if color_top_left[:3] in platformscolor:
-                player_1.y += player_1.speed
-                player_1.vel_y = 0  # Stop upward movement on collision
-        elif horizontal_left_x <= 0 and WIDTH > horizontal_right_x > 0 and 0 < horizontal_top_y < HEIGHT:
-            color_top_right = screen.get_at((horizontal_right_x, horizontal_top_y))
-            if color_top_right[:3] in platformscolor:
-                player_1.y += player_1.speed
-                player_1.vel_y = 0  # Stop upward movement on collision
-        check_fall(1)
+        # Only check ceiling when actually hitting the top of a platform, not when jumping toward walls
+        if player_1.state == "jump" and player_1.vel_y > 0:
+            # Don't check ceiling when touching walls - prevents false ceiling detection when jumping toward walls
+            if not (player_1.collision_right or player_1.collision_left):
+                if 0 < horizontal_right_x < WIDTH and 0 < horizontal_top_y < HEIGHT and 0 < horizontal_left_x < WIDTH:
+                    color_top_right = screen.get_at((horizontal_right_x, horizontal_top_y))
+                    color_top_left = screen.get_at((horizontal_left_x, horizontal_top_y))
+                    if color_top_right[:3] in platformscolor or color_top_left[:3] in platformscolor:
+                        ceiling()
+                        player_1.y = player_1.ceiling + player_1.border
+                        player_1.y += player_1.speed
+                        player_1.vel_y = 0
+                elif WIDTH >= horizontal_left_x > 0 and 0 < horizontal_top_y < HEIGHT:
+                    color_top_left = screen.get_at((horizontal_left_x, horizontal_top_y))
+                    if color_top_left[:3] in platformscolor:
+                        player_1.y += player_1.speed
+                        player_1.vel_y = 0
+                elif horizontal_left_x <= 0 and WIDTH > horizontal_right_x > 0 and 0 < horizontal_top_y < HEIGHT:
+                    color_top_right = screen.get_at((horizontal_right_x, horizontal_top_y))
+                    if color_top_right[:3] in platformscolor:
+                        player_1.y += player_1.speed
+                        player_1.vel_y = 0
+        # Only call check_fall when not jumping upward (prevents interference with jumps)
+        if not (player_1.state == "jump" and player_1.vel_y > 0):
+            check_fall(1)
       
         if player_1.state != "jump":
             #check bottom left and right side of the person:
@@ -425,7 +482,7 @@ while running:
                 if (color_bottom_left[:3] not in platformscolor) and (color_bottom_right[:3] not in platformscolor): #fall down if not on ground
                     check_fall(0)
                 elif player_1.state != "jump":
-                    player_1.y = player_1.ground - player_1.height - 1
+                    player_1.y = player_1.ground - player_1.height - player_1.border
                     
 
         
@@ -439,6 +496,71 @@ while running:
         
         
     player_1.update(horizontal_right_x)
+
+    # Recalculate positions after movement for collision checks
+    post_move_left_x = int(player_1.x - player_1.border)
+    post_move_right_x = int(player_1.x + player_1.width + player_1.border)
+    post_move_top_y = int(player_1.y - player_1.border)
+    post_move_bottom_y = int(player_1.y + player_1.height + player_1.border)
+    
+    # Check if player is inside a platform or too close to walls and push them out (prevents wall climbing)
+    if player_1.command == True:
+        # Check right side collision after movement
+        if post_move_right_x < WIDTH and post_move_right_x > 0 and post_move_top_y > 0 and post_move_bottom_y < HEIGHT:
+            check_right_x = post_move_right_x
+            check_right_top = screen.get_at((check_right_x, post_move_top_y + 5))
+            check_right_bottom = screen.get_at((check_right_x, post_move_bottom_y - 5))
+            if check_right_top[:3] in platformscolor or check_right_bottom[:3] in platformscolor:
+                # Player is touching or inside right wall, push them back
+                player_1.x = check_right_x - 1 - player_1.width - player_1.border
+                player_1.collision_right = True
+                if player_1.wind_component > 0:
+                    player_1.wind_component = 0
+        
+        # Check left side collision after movement
+        if post_move_left_x > 0 and post_move_left_x < WIDTH and post_move_top_y > 0 and post_move_bottom_y < HEIGHT:
+            check_left_x = post_move_left_x
+            check_left_top = screen.get_at((check_left_x, post_move_top_y + 5))
+            check_left_bottom = screen.get_at((check_left_x, post_move_bottom_y - 5))
+            if check_left_top[:3] in platformscolor or check_left_bottom[:3] in platformscolor:
+                # Player is touching or inside left wall, push them back
+                player_1.x = check_left_x + 1 + player_1.border
+                player_1.collision_left = True
+                if player_1.wind_component < 0:
+                    player_1.wind_component = 0
+        
+        # Check if player's center is inside a platform
+        if not (player_1.state == "jump" and player_1.vel_y > 0):
+            center_x = int(player_1.x + player_1.width / 2)
+            center_y = int(player_1.y + player_1.height / 2)
+            if 0 < center_x < WIDTH and 0 < center_y < HEIGHT:
+                center_color = screen.get_at((center_x, center_y))
+                if center_color[:3] in platformscolor:
+                    # Player is inside a platform, push them out horizontally
+                    test_x_left = int(player_1.x - player_1.speed - player_1.border)
+                    test_x_right = int(player_1.x + player_1.width + player_1.speed + player_1.border)
+                    pushed_out = False
+                    
+                    if test_x_left > 0:
+                        test_color_left = screen.get_at((test_x_left, center_y))
+                        if test_color_left[:3] not in platformscolor:
+                            player_1.x -= player_1.speed
+                            pushed_out = True
+                    
+                    # If left didn't work, try pushing right
+                    if not pushed_out and test_x_right < WIDTH:
+                        test_color_right = screen.get_at((test_x_right, center_y))
+                        if test_color_right[:3] not in platformscolor:
+                            player_1.x += player_1.speed
+                            pushed_out = True
+                    
+                    # If still inside, try pushing up (but not during upward jumps)
+                    if not pushed_out and player_1.state != "jump":
+                        test_y_top = int(player_1.y - player_1.speed - player_1.border)
+                        if test_y_top > 0:
+                            test_color_top = screen.get_at((center_x, test_y_top))
+                            if test_color_top[:3] not in platformscolor:
+                                player_1.y -= player_1.speed
 
     # Checking if wind pushes player into a platform
     if player_1.command == True and player_1.wind_component != 0:
