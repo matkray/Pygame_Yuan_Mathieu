@@ -109,9 +109,14 @@ class Person:
                         self.y -= self.vel_y
                     else:
                         # Landed on ground
+                        was_jumping = self.state == "jump"
                         self.y = self.ground - self.height - self.border
                         self.vel_y = 0
-                        self.state = "idle" if self.vel_x == 0 else "walk"
+                        new_state = "idle" if self.vel_x == 0 else "walk"
+                        # Play landing sound if we just landed
+                        if was_jumping and new_state != "jump":
+                            from sound_manager import play_landing_sound
+                            play_landing_sound(config.sound_volume, config.sound_enabled)
             else:
                 # Don't reset vel_y when falling - let check_fall() handle velocity accumulation
                 # Only reset if we're actually on the ground (check_fall will set it to 0 when on ground)
