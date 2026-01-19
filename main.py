@@ -110,6 +110,7 @@ platform_2_5 = Platform(200, 700, 200, 100, False, 2, 0)
 platform_2_6 = Platform(800, 200, 200, 100, False, 2, 0)
 platform_2_7 = Platform(500, 400, 200, 100, False, 2, 0)
 #2 right:
+
 #end create Platform:#################################
 
 #background:#########################################
@@ -355,7 +356,7 @@ while running:
             if time_2 == 0:
                 timer = True
                 time_2 = pygame.time.get_ticks()
-        if (player_1.command == True) and (event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE):
+        if (player_1.command == True) and (event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE) and not player_1.state == "jump":
             player_1.jump()
         if event.type == pygame.MOUSEBUTTONDOWN:
             if pause_rect.collidepoint(event.pos):
