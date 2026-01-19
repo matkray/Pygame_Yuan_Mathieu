@@ -3,6 +3,7 @@ from constants import *
 import config
 from PIL import Image
 import random
+from themes import get_platform_colors
 
 class Platform:
     instances = []
@@ -45,8 +46,9 @@ class Platform:
             self.y += self.v_y
     def draw(self, screen):
         if self.page == config.current_page:
-            green = (185, 145, 100)
-            brown = (144, 187, 66)
+            colors = get_platform_colors(config.current_backdrop)
+            green = colors[0]
+            brown = colors[1]
 
             amplitude = 10
             step = 10
