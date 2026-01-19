@@ -11,7 +11,6 @@ from PIL import Image
 import time
 from sound_manager import play_jump_sound, play_landing_sound
 from settings import render_settings, handle_settings_click, handle_settings_drag
-from themes import BACKDROP_THEMES, get_platform_colors
 
 pygame.init()
 
@@ -19,8 +18,10 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Candle Run")
 clock = pygame.time.Clock()
 
+# Backdrop themes system
+from themes import BACKDROP_THEMES, get_platform_colors
+
 def create_gradient_background(width, height, top_color, bottom_color):
-    """Create a vertical gradient background surface"""
     surface = pygame.Surface((width, height))
     for y in range(height):
         ratio = y / height
@@ -31,7 +32,6 @@ def create_gradient_background(width, height, top_color, bottom_color):
     return surface
 
 def get_background_surface(theme_name):
-    """Get the background surface for the given theme"""
     theme = BACKDROP_THEMES[theme_name]
     if theme["type"] == "image":
         bg = pygame.image.load(theme["background"]).convert()
@@ -65,8 +65,11 @@ walk_frame = 0
 # Platform colors will be set dynamically based on backdrop theme
 platformscolor = get_platform_colors(config.current_backdrop)
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 84e64f4be9a742f2b095da678f7002cd1205f7fd
 #text stuff:########################################
 pygame.font.init()
 Antonio_font = pygame.font.Font('Antonio-Bold.ttf', 30)
@@ -107,7 +110,7 @@ platform_0_6 = Platform(500, 400, 200, 200, True, 0, -200)
 #0 right:
 platform_0_7 = Platform(WIDTH - 70,0,70, 0.5*HEIGHT, False, 0, 0)
 plaform_0_8 = Platform(WIDTH - 70,0.7*HEIGHT,70, 0.4*HEIGHT, False, 0, 0)
-
+"""
 #1 left:
 platform_1_1 = Platform(0,0,70, 0.5*HEIGHT, False, 1, 0)
 platform_1_2 = Platform(0,0.7*HEIGHT,70, 0.4*HEIGHT, False, 1, 0)
@@ -128,7 +131,7 @@ platform_2_3 = Platform(0, HEIGHT - 49, 0.5 * WIDTH, 50, False, 2, 0)
 platform_2_4 = Platform(0.5 * WIDTH, HEIGHT - 99, 0.5 * WIDTH, 100, False, 2, 0)
 platform_2_5 = Platform(200, 700, 200, 100, False, 2, 0)
 platform_2_6 = Platform(800, 200, 200, 100, False, 2, 0)
-platform_2_7 = Platform(500, 400, 200, 100, False, 2, 0)
+platform_2_7 = Platform(500, 400, 200, 100, False, 2, 0)"""
 #2 right:
 
 #end create Platform:#################################
@@ -147,10 +150,6 @@ backgroundimage_nature = pygame.transform.scale(backgroundimage_nature, (WIDTH, 
 player_1.change_character(config.current_character)
 
 def ground():
-    # Only skip ground detection during upward jump if wind is pushing the player
-    if player_1.state == "jump" and player_1.vel_y > 0 and player_1.wind_component != 0:
-        return
-    
     var_check_ground = vertical_bottom_y - 10
     player_bottom_y = vertical_bottom_y  # Current bottom position of player
     while True:
@@ -373,7 +372,7 @@ while running:
     vertical_right_x = int(player_1.x + player_1.width + 1 + player_1.border)
 
 
-    img = Image.open(f"Pygame_Yuan_Mathieu/png_{player_1.character}/Run (1).png")
+    img = Image.open(f"Pygame_Yuan_Mathieu/png_{player_1.character}/Run (1).png")   # no leading slash
     width, height = img.size
     
     # Initialize navigation bar elements (need to be available for event handling)
@@ -400,19 +399,25 @@ while running:
                 if settings_ui_elements:
                     result = handle_settings_click(event.pos, settings_ui_elements, player_1, platformscolor)
                     if result == "backdrop_changed":
+                        # Update background when backdrop changes
                         current_background = get_background_surface(config.current_backdrop)
+                        # Close settings and restart level with new backdrop
                         player_1.settings_page = False
                         reset_to_initial()
                     elif result == "character_changed":
+                        # Close settings and restart level with new character
                         player_1.settings_page = False
                         reset_to_initial()
                     elif result == "back_clicked":
+                        # Restart the level when back button is clicked (same as restart)
                         player_1.settings_page = False
                         reset_to_initial()
+                    # Check if slider was clicked
                     if settings_ui_elements.get("slider_rect") and settings_ui_elements["slider_rect"].collidepoint(event.pos):
                         dragging_slider = True
             else:
                 # Handle game UI clicks
+<<<<<<< HEAD
                 print("")
             if pause_rect.collidepoint(event.pos):
                 pause_function()
@@ -422,6 +427,16 @@ while running:
             elif settings_rect.collidepoint(event.pos):
                 player_1.settings_page = True
                 pause_function()
+=======
+                if pause_rect.collidepoint(event.pos):
+                    pause_function()
+                    timer = False if pause_text == "RESUME" else True
+                elif restart_rect.collidepoint(event.pos):
+                    reset_to_initial()
+                elif settings_rect.collidepoint(event.pos):
+                    player_1.settings_page = True
+                    pause_function()
+>>>>>>> 84e64f4be9a742f2b095da678f7002cd1205f7fd
         
         if event.type == pygame.MOUSEBUTTONUP:
             if player_1.settings_page:
@@ -430,9 +445,9 @@ while running:
         if event.type == pygame.MOUSEMOTION:
             if player_1.settings_page and dragging_slider and settings_ui_elements:
                 handle_settings_drag(event.pos, settings_ui_elements)
-               
-
-
+                
+            
+    
     if player_1.command == True:
         keys = pygame.key.get_pressed()
         if keys[pygame.K_RIGHT] and not keys[pygame.K_LEFT]:
@@ -686,7 +701,7 @@ while running:
         if player_1.leftwall == False:
             player_1.x = player_1.x - player_1.width + widthbefore
         
-        screen.blit(backgroundimage_nature, (0, 0))
+        screen.blit(current_background, (0, 0))
 
         # draw ghost:
         if played_before == True:
@@ -754,22 +769,23 @@ while running:
 
     
     if player_1.settings_page == True:
-        screen.fill("black")
-        #here comes the settings page:
-        
+        # Render settings page
+        settings_ui_elements = render_settings(screen, Antonio_font, Antonio_font_big)
+        # Ensure background and platform colors are up to date
+        current_background = get_background_surface(config.current_backdrop)
+        platformscolor[:] = get_platform_colors(config.current_backdrop)
+    else:
+        #navigation bar:
+        pause = Antonio_font.render(pause_text, True, (0, 0, 0))
+        pause_rect = pause.get_rect(topright=(WIDTH - 30, 0))
 
+        restart = Antonio_font.render("RESTART", True, (0, 0, 0))
+        restart_rect = restart.get_rect(topright=(WIDTH - pause_rect.width - 60, 0))
 
-    #navigation bar:
-    pause = Antonio_font.render(pause_text, True, (0, 0, 0))
-    pause_rect = pause.get_rect(topright=(WIDTH - 30, 0))
+        settings = Antonio_font.render("SETTINGS", True, (0, 0, 0))
+        settings_rect = settings.get_rect(topright=(WIDTH - pause_rect.width - restart_rect.width - 90, 0))
 
-    restart = Antonio_font.render("RESTART", True, (0, 0, 0))
-    restart_rect = restart.get_rect(topright=(WIDTH - pause_rect.width - 60, 0))
-
-    settings = Antonio_font.render("SETTINGS", True, (0, 0, 0))
-    settings_rect = settings.get_rect(topright=(WIDTH - pause_rect.width - restart_rect.width - 90, 0))
-
-    recttop = pygame.Rect(WIDTH - pause_rect.width - restart_rect.width - settings_rect.width - 120, 0, 500, 50)
+        recttop = pygame.Rect(WIDTH - pause_rect.width - restart_rect.width - settings_rect.width - 120, 0, 500, 50)
     
     pygame.draw.rect(screen, (255,255,255), recttop)
     screen.blit(settings, settings_rect)

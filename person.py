@@ -26,7 +26,7 @@ class Person:
         self.ceiling = 0
         self.fail = False
         self.state = "idle" #or jump, dead, run, walk, idle
-        self.character = "dinosaurier" #or redhat
+        self.character = "dinosaurier" #or redhat etc
         self.maxrunframe = 8
         self.pngpath = f"Pygame_Yuan_Mathieu/png_{self.character}/Idle.png"
         self.jumpframe = 0
@@ -117,6 +117,7 @@ class Person:
                         if was_jumping and new_state != "jump":
                             from sound_manager import play_landing_sound
                             play_landing_sound(config.sound_volume, config.sound_enabled)
+                        self.state = new_state
             else:
                 # Don't reset vel_y when falling - let check_fall() handle velocity accumulation
                 # Only reset if we're actually on the ground (check_fall will set it to 0 when on ground)
@@ -162,18 +163,18 @@ class Person:
                 self.jumpframe = self.jumpframe % 12
                 if self.jumpframe >= 8:
                     self.jumpframe = 8"""
-                self.pngpath = f"Pygame_Yuan_Mathieu/png_{self.character}/Jump.png"
+                self.pngpath = f"png_{self.character}/Jump.png"
             elif self.vel_x == 0:
                 self.state = "idle"
                 self.jumpframe = 0
                 self.walkframe = 0
-                self.pngpath = f"Pygame_Yuan_Mathieu/png_{self.character}/Idle.png"
+                self.pngpath = f"png_{self.character}/Idle.png"
             else:
                 self.jumpframe = 0
                 self.state = "walk"
                 self.walkframe += 0.25
                 self.walkframe = self.walkframe % (self.maxrunframe - 1)
-                self.pngpath = f"Pygame_Yuan_Mathieu/png_{self.character}/Run ({round(self.walkframe) + 1}).png"
+                self.pngpath = f"png_{self.character}/Run ({round(self.walkframe) + 1}).png"
 
 
     def draw(self, screen):
