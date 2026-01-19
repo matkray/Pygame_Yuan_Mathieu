@@ -139,6 +139,11 @@ settings_ui_elements = None
 dragging_slider = False
 #end background######################################
 
+#background:#########################################
+backgroundimage_nature = pygame.image.load("Pygame_Yuan_Mathieu/images/nature.jpg").convert()
+backgroundimage_nature = pygame.transform.scale(backgroundimage_nature, (WIDTH, HEIGHT))
+#end background######################################
+
 player_1.change_character(config.current_character)
 
 def ground():
