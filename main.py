@@ -65,10 +65,7 @@ walk_frame = 0
 # Platform colors will be set dynamically based on backdrop theme
 platformscolor = get_platform_colors(config.current_backdrop)
 
-platformscolor = [
-    green,
-    brown
-]
+
 
 #text stuff:########################################
 pygame.font.init()
@@ -411,6 +408,7 @@ while running:
                         dragging_slider = True
             else:
                 # Handle game UI clicks
+                print("")
             if pause_rect.collidepoint(event.pos):
                 pause_function()
                 timer = False if pause_text == "RESUME" else True
