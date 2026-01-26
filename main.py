@@ -65,11 +65,6 @@ walk_frame = 0
 # Platform colors will be set dynamically based on backdrop theme
 platformscolor = get_platform_colors(config.current_backdrop)
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 84e64f4be9a742f2b095da678f7002cd1205f7fd
 #text stuff:########################################
 pygame.font.init()
 Antonio_font = pygame.font.Font('Antonio-Bold.ttf', 30)
@@ -110,7 +105,7 @@ platform_0_6 = Platform(500, 400, 200, 200, True, 0, -200)
 #0 right:
 platform_0_7 = Platform(WIDTH - 70,0,70, 0.5*HEIGHT, False, 0, 0)
 plaform_0_8 = Platform(WIDTH - 70,0.7*HEIGHT,70, 0.4*HEIGHT, False, 0, 0)
-"""
+
 #1 left:
 platform_1_1 = Platform(0,0,70, 0.5*HEIGHT, False, 1, 0)
 platform_1_2 = Platform(0,0.7*HEIGHT,70, 0.4*HEIGHT, False, 1, 0)
@@ -131,7 +126,7 @@ platform_2_3 = Platform(0, HEIGHT - 49, 0.5 * WIDTH, 50, False, 2, 0)
 platform_2_4 = Platform(0.5 * WIDTH, HEIGHT - 99, 0.5 * WIDTH, 100, False, 2, 0)
 platform_2_5 = Platform(200, 700, 200, 100, False, 2, 0)
 platform_2_6 = Platform(800, 200, 200, 100, False, 2, 0)
-platform_2_7 = Platform(500, 400, 200, 100, False, 2, 0)"""
+platform_2_7 = Platform(500, 400, 200, 100, False, 2, 0)
 #2 right:
 
 #end create Platform:#################################
@@ -417,26 +412,16 @@ while running:
                         dragging_slider = True
             else:
                 # Handle game UI clicks
-<<<<<<< HEAD
                 print("")
+
             if pause_rect.collidepoint(event.pos):
-                pause_function()
-                timer = False if pause_text == "RESUME" else True
-            elif restart_rect.collidepoint(event.pos):
-                reset_to_initial()
-            elif settings_rect.collidepoint(event.pos):
-                player_1.settings_page = True
-                pause_function()
-=======
-                if pause_rect.collidepoint(event.pos):
                     pause_function()
                     timer = False if pause_text == "RESUME" else True
-                elif restart_rect.collidepoint(event.pos):
+            elif restart_rect.collidepoint(event.pos):
                     reset_to_initial()
-                elif settings_rect.collidepoint(event.pos):
+            elif settings_rect.collidepoint(event.pos):
                     player_1.settings_page = True
                     pause_function()
->>>>>>> 84e64f4be9a742f2b095da678f7002cd1205f7fd
         
         if event.type == pygame.MOUSEBUTTONUP:
             if player_1.settings_page:
@@ -682,7 +667,7 @@ while running:
     
     if player_1.success == False and player_1.fail == False:
         widthbefore = player_1.width
-
+        print("player pngpath:", player_1.pngpath)
         image = pygame.image.load(player_1.pngpath).convert_alpha()
         width = image.get_width()
         height = image.get_height()

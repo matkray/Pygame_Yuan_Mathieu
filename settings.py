@@ -8,6 +8,14 @@ from constants import *
 import config
 from themes import BACKDROP_THEMES, get_platform_colors
 
+pygame.mixer.init()
+
+pygame.mixer.music.load("Pygame_Yuan_Mathieu/song/platformer_background_music.mp3")
+
+pygame.mixer.music.play(-1)
+
+
+
 def render_settings(screen, font, font_big):
     """Render the settings page UI"""
     screen.fill((30, 30, 40))  # Dark background
@@ -144,12 +152,19 @@ def render_settings(screen, font, font_big):
     toggle_height = 30
     toggle_rect = pygame.Rect(toggle_x, toggle_y, toggle_width, toggle_height)
     
+    pygame.mixer.music.set_volume(config.sound_volume)
     if config.sound_enabled:
         toggle_color = (100, 200, 100)  # Green when enabled
         toggle_text = "ON"
+        pygame.mixer.music.unpause()
+        
+
     else:
         toggle_color = (200, 100, 100)  # Red when disabled
         toggle_text = "OFF"
+        pygame.mixer.music.pause()
+
+
     
     pygame.draw.rect(screen, toggle_color, toggle_rect)
     pygame.draw.rect(screen, (255, 255, 255), toggle_rect, 2)

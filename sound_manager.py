@@ -8,6 +8,8 @@ import pygame
 import math
 import array
 
+
+
 pygame.mixer.init(frequency=22050, size=-16, channels=2, buffer=512)
 
 def generate_tone(frequency, duration, sample_rate=22050, volume=0.3):
