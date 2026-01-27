@@ -241,6 +241,11 @@ def check_fall(k):
         if current_bottom < player_1.ground:
             player_1.vel_y += k * player_1.gravity  # Apply gravity
             player_1.y -= player_1.vel_y
+            # Clamp immediately if we overshot the ground this frame
+            new_bottom = player_1.y + player_1.height + player_1.border
+            if new_bottom >= player_1.ground:
+                player_1.y = player_1.ground - player_1.height - player_1.border
+                player_1.vel_y = 0
         else:
             # Only adjust position if significantly off ground to prevent micro-adjustments
             target_y = player_1.ground - player_1.height - player_1.border

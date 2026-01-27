@@ -96,7 +96,8 @@ class Person:
             before = self.y
             self.rectperson = pygame.Rect(self.x, self.y, self.width, self.height)
             if self.state == "jump":
-                current_bottom = self.y + self.height
+                # include border so landing check matches ground calculation
+                current_bottom = self.y + self.height + self.border
                 # When jumping upward, completely ignore ground checks to reach maximum height
                 if self.vel_y > 0:
                     self.vel_y += self.gravity
@@ -107,8 +108,9 @@ class Person:
                         # Still falling, continue falling
                         self.vel_y += self.gravity
                         self.y -= self.vel_y
-                    else:
-                        # Landed on ground
+                    # Clamp immediately if we overshot the ground in this frame
+                    landing_bottom = self.y + self.height + self.border
+                    if landing_bottom >= self.ground:
                         was_jumping = self.state == "jump"
                         self.y = self.ground - self.height - self.border
                         self.vel_y = 0
