@@ -399,11 +399,6 @@ while running:
     vertical_bottom_y = int(player_1.y + player_1.height + player_1.border)
     vertical_right_x = int(player_1.x + player_1.width + 1 + player_1.border)
 
-    # Store head position before movement to catch ceiling tunneling
-    prev_top_y = horizontal_top_y
-    prev_left_x = horizontal_left_x
-    prev_right_x = horizontal_right_x
-
 
     img = Image.open(f"Pygame_Yuan_Mathieu/png_{player_1.character}/Run (1).png")   # no leading slash
     width, height = img.size
@@ -594,7 +589,6 @@ while running:
         
         
     player_1.update(horizontal_right_x)
-    resolve_ceiling_tunneling(prev_top_y, prev_left_x, prev_right_x)
 
     # Recalculate positions after movement for collision checks
     post_move_left_x = int(player_1.x - player_1.border)
