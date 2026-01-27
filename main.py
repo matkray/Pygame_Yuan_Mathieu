@@ -316,6 +316,34 @@ def check_right():
         elif right:
             player_1.vel_x = player_1.speed
 
+def resolve_ceiling_tunneling(prev_top_y, prev_left_x, prev_right_x):
+    """
+    Prevents the player from skipping through thin ceilings when moving upward
+    with a large velocity in a single frame.
+    """
+    new_top_y = int(player_1.y - 1 - player_1.border)
+    if new_top_y < prev_top_y:
+        # Cover potential horizontal movement between frames
+        left_x = max(0, min(prev_left_x, int(player_1.x)))
+        right_x = min(WIDTH - 1, max(prev_right_x, int(player_1.x + player_1.width)))
+        start_y = min(prev_top_y, HEIGHT - 1)
+        end_y = max(new_top_y, -1)
+
+        for y_scan in range(start_y, end_y - 1, -1):
+            if y_scan < 0:
+                # Clamp to the top of the screen if we overshoot past y = 0
+                player_1.y = player_1.border + 1
+                player_1.vel_y = 0
+                break
+
+            color_left = screen.get_at((left_x, y_scan))
+            color_right = screen.get_at((right_x, y_scan))
+            if color_left[:3] in platformscolor or color_right[:3] in platformscolor:
+                # Place player just below the hit point
+                player_1.y = y_scan + 1 + player_1.border
+                player_1.vel_y = 0
+                break
+
 
 def pause_function():
     if player_1.fail == False:
@@ -370,6 +398,11 @@ while running:
     vertical_top_y = int(player_1.y - player_1.border)
     vertical_bottom_y = int(player_1.y + player_1.height + player_1.border)
     vertical_right_x = int(player_1.x + player_1.width + 1 + player_1.border)
+
+    # Store head position before movement to catch ceiling tunneling
+    prev_top_y = horizontal_top_y
+    prev_left_x = horizontal_left_x
+    prev_right_x = horizontal_right_x
 
 
     img = Image.open(f"Pygame_Yuan_Mathieu/png_{player_1.character}/Run (1).png")   # no leading slash
@@ -561,6 +594,7 @@ while running:
         
         
     player_1.update(horizontal_right_x)
+    resolve_ceiling_tunneling(prev_top_y, prev_left_x, prev_right_x)
 
     # Recalculate positions after movement for collision checks
     post_move_left_x = int(player_1.x - player_1.border)
