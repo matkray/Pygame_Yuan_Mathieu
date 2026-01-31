@@ -79,7 +79,10 @@ def render_settings(screen, font, font_big):
     
     backdrop_names = list(BACKDROP_THEMES.keys())
     backdrop_display_names = {
-        "nature": "Nature"
+        "nature": "Nature",
+        "cloud": "Cloud",
+        "forest": "Forest",
+        "mountain": "Mountain"
     }
     backdrop_buttons = []
     backdrop_button_width = 150
