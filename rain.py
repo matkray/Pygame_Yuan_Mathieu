@@ -30,7 +30,7 @@ class Raindrop():
         self.gravitation = 4
         self.number = number
         
-        width, height = Image.open("Pygame_Yuan_Mathieu/images/raindrop.png").size
+        width, height = Image.open("images/raindrop.png").size
         self.drop_height = (self.drop_width / width) * height
 
 
@@ -48,7 +48,7 @@ class Raindrop():
                     break   # restart with a new random position
 
 
-        self.image = pygame.image.load("Pygame_Yuan_Mathieu/images/raindrop.png").convert_alpha()
+        self.image = pygame.image.load("images/raindrop.png").convert_alpha()
         self.image = pygame.transform.scale(self.image, (self.drop_width, self.drop_height))
 
         Raindrop.instances.append(self)

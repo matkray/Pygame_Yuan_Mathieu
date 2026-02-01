@@ -22,7 +22,7 @@ class Wachs:
             #if self.page == config.current_page:
             self.rectwachs = pygame.Rect(self.x, self.y, self.width, self.height)   # position + siz
 
-            self.image = pygame.image.load("Pygame_Yuan_Mathieu/images/wachsstueck.png").convert_alpha()
+            self.image = pygame.image.load("images/wachsstueck.png").convert_alpha()
             self.image = pygame.transform.scale(self.image, (self.width, self.height))
 
             

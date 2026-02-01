@@ -52,29 +52,29 @@ class Candle:
             self.rectcandle4 = pygame.Rect(self.x, self.y - self.height_5 - self.percentageheight * 0.01 * self.height_4 + 2, self.width, self.percentageheight * 0.01 * self.height_4)
             self.rectcandle5 = pygame.Rect(self.x, self.y - self.height_5, self.width, self.height_5)
 
-            self.candle_1 = pygame.image.load("Pygame_Yuan_Mathieu/candle/candle_1.png").convert_alpha()
+            self.candle_1 = pygame.image.load("candle/candle_1.png").convert_alpha()
             self.candle_1 = pygame.transform.scale(self.candle_1, (self.width, self.height_1))
 
-            #self.candle_2_3 = pygame.image.load("Pygame_Yuan_Mathieu/candle/candle_2_3.png").convert_alpha()
+            #self.candle_2_3 = pygame.image.load("candle/candle_2_3.png").convert_alpha()
             #self.candle_2_3 = pygame.transform.scale(self.candle_2_3, (self.width, self.height_2_3))
 
             if self.player_1.fail == False:
-                self.candle_2 = pygame.image.load("Pygame_Yuan_Mathieu/candle/candle_2.png").convert_alpha()
+                self.candle_2 = pygame.image.load("candle/candle_2.png").convert_alpha()
             else:
-                self.candle_2 = pygame.image.load("Pygame_Yuan_Mathieu/candle/candleblack_2.png").convert_alpha()
+                self.candle_2 = pygame.image.load("candle/candleblack_2.png").convert_alpha()
             self.candle_2 = pygame.transform.scale(self.candle_2, (self.width, self.height_2))
 
-            self.candle_3 = pygame.image.load("Pygame_Yuan_Mathieu/candle/candle_3.png").convert_alpha()
+            self.candle_3 = pygame.image.load("candle/candle_3.png").convert_alpha()
             self.candle_3 = pygame.transform.scale(self.candle_3, (self.width, self.height_3))
 
-            self.candle_4 = pygame.image.load("Pygame_Yuan_Mathieu/candle/candle_4.png").convert_alpha()
+            self.candle_4 = pygame.image.load("candle/candle_4.png").convert_alpha()
             if self.percentageheight > 0:
                 self.candle_4 = pygame.transform.scale(self.candle_4, (self.width, self.percentageheight * 0.01 * self.height_4))
             else:
                 self.player_1.fail == True
                 self.candle_4 = pygame.transform.scale(self.candle_4, (self.width, self.percentageheight * 0.01 * self.height_4))
 
-            self.candle_5 = pygame.image.load("Pygame_Yuan_Mathieu/candle/candle_5.png").convert_alpha()
+            self.candle_5 = pygame.image.load("candle/candle_5.png").convert_alpha()
             self.candle_5 = pygame.transform.scale(self.candle_5, (self.width, self.height_5))
 
             if self.percentageheight <= 10:            

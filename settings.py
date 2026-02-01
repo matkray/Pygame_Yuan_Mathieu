@@ -10,7 +10,7 @@ from themes import BACKDROP_THEMES, get_platform_colors
 
 pygame.mixer.init()
 
-pygame.mixer.music.load("Pygame_Yuan_Mathieu/song/platformer_background_music.mp3")
+pygame.mixer.music.load("song/platformer_background_music.mp3")
 
 pygame.mixer.music.play(-1)
 
@@ -59,7 +59,7 @@ def render_settings(screen, font, font_big):
         
         # Character preview (load first idle frame)
         try:
-            preview_path = f"Pygame_Yuan_Mathieu/png_{char}/Idle.png"
+            preview_path = f"png_{char}/Idle.png"
             preview_img = pygame.image.load(preview_path).convert_alpha()
             # Scale to fit in button
             scale_factor = min(char_button_width * 0.8 / preview_img.get_width(), 

@@ -22,7 +22,7 @@ class Wind():
         else:
             self.vel_x = 2
         
-        width, height = Image.open("Pygame_Yuan_Mathieu/images/wind_black.png").size
+        width, height = Image.open("images/wind_black.png").size
         self.wind_height = (self.wind_width / width) * height
 
         self.rect_total = pygame.Rect(self.rect_x, self.rect_y, self.rect_width, self.rect_height)
@@ -43,7 +43,7 @@ class Wind():
            
 
 
-        self.image = pygame.image.load("Pygame_Yuan_Mathieu/images/wind_black.png").convert_alpha()
+        self.image = pygame.image.load("images/wind_black.png").convert_alpha()
         self.image = pygame.transform.scale(self.image, (self.wind_width, self.wind_height))
         if self.right == False:
             self.image = pygame.transform.flip(self.image, True, False)

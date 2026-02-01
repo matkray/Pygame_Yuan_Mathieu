@@ -28,7 +28,7 @@ class Person:
         self.state = "idle" #or jump, dead, run, walk, idle
         self.character = "dinosaurier" #or redhat etc
         self.maxrunframe = 8
-        self.pngpath = f"Pygame_Yuan_Mathieu/png_{self.character}/Idle.png"
+        self.pngpath = f"png_{self.character}/Idle.png"
         self.jumpframe = 0
         self.walkframe = 0
         self.flipped = False
@@ -165,18 +165,18 @@ class Person:
                 self.jumpframe = self.jumpframe % 12
                 if self.jumpframe >= 8:
                     self.jumpframe = 8"""
-                self.pngpath = f"Pygame_Yuan_Mathieu/png_{self.character}/Jump.png"
+                self.pngpath = f"png_{self.character}/Jump.png"
             elif self.vel_x == 0:
                 self.state = "idle"
                 self.jumpframe = 0
                 self.walkframe = 0
-                self.pngpath = f"Pygame_Yuan_Mathieu/png_{self.character}/Idle.png"
+                self.pngpath = f"png_{self.character}/Idle.png"
             else:
                 self.jumpframe = 0
                 self.state = "walk"
                 self.walkframe += 0.25
                 self.walkframe = self.walkframe % (self.maxrunframe - 1)
-                self.pngpath = f"Pygame_Yuan_Mathieu/png_{self.character}/Run ({round(self.walkframe) + 1}).png"
+                self.pngpath = f"png_{self.character}/Run ({round(self.walkframe) + 1}).png"
 
 
     def draw(self, screen):

@@ -138,7 +138,7 @@ dragging_slider = False
 #end background######################################
 
 #background:#########################################
-backgroundimage_nature = pygame.image.load("Pygame_Yuan_Mathieu/images/nature.jpg").convert()
+backgroundimage_nature = pygame.image.load("images/nature.jpg").convert()
 backgroundimage_nature = pygame.transform.scale(backgroundimage_nature, (WIDTH, HEIGHT))
 #end background######################################
 
@@ -400,7 +400,7 @@ while running:
     vertical_right_x = int(player_1.x + player_1.width + 1 + player_1.border)
 
 
-    img = Image.open(f"Pygame_Yuan_Mathieu/png_{player_1.character}/Run (1).png")   # no leading slash
+    img = Image.open(f"png_{player_1.character}/Run (1).png")   # no leading slash
     width, height = img.size
     
     # Initialize navigation bar elements (need to be available for event handling)
