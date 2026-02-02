@@ -1,13 +1,13 @@
 import constants
 
 current_page = 0
-max_pages = 0
+max_pages = 1
 check_wind = True
 
 # Game settings
 current_character = "redhat"
 current_backdrop = "nature"
-sound_volume = 0.75
+sound_volume = 0.50
 sound_enabled = True
 
 """#page one platforms::###############################

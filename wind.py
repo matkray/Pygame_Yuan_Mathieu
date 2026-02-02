@@ -67,13 +67,13 @@ class Wind():
                             self.player_1.wind_component = 0
                         else:
                             self.player_1.wind_component = 2
-                            config.check_wind == False
+                            config.check_wind = False
                     else:
                         if self.player_1.collision_left:
                             self.player_1.wind_component = 0
                         else:
                             self.player_1.wind_component = -2
-                            config.check_wind == False
+                            config.check_wind = False
      
     def draw(self, screen):
         if config.current_page == self.page and self.player_1.fail == False:

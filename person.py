@@ -12,12 +12,12 @@ class Person:
         self.x_default = 80
         self.x = self.x_default
 
-        self.y_default = HEIGHT - 100 - self.height
+        self.y_default = HEIGHT - 160 - self.height
         self.y = self.y_default
 
         self.speed_x = 0
         self.gravity = -1.5
-        self.ground = HEIGHT - 100
+        self.ground = HEIGHT - 160
         self.vel_y = 0  # Vertical velocity for jumping
         self.vel_x = 0
         self.rectperson = pygame.Rect(self.x, self.y, self.width, self.height)
@@ -43,7 +43,7 @@ class Person:
         self.locked_y_position = 0
         self.has_side_collision = False
         self.just_jumped = False
-        self.jump_start_ground = HEIGHT - 100  # Store ground value at jump start
+        self.jump_start_ground = HEIGHT - 160  # Store ground value at jump start
 
         
         
@@ -52,7 +52,7 @@ class Person:
         self.x = self.x_default
         self.y = self.y_default
         self.fail = False
-        self.ground = HEIGHT - 100
+        self.ground = HEIGHT - 160
         self.flipped = False
         #self.jumpframe = 0
         self.walkframe = 0
@@ -69,7 +69,7 @@ class Person:
         self.collision_left = False
         self.just_jumped = False
         self.border = 1
-        self.jump_start_ground = HEIGHT - 100
+        self.jump_start_ground = HEIGHT - 160
         self.start = True
         
 

@@ -1,5 +1,6 @@
 import pygame
 from constants import *
+import config
 import random
 
 #text stuff:########################################
@@ -39,18 +40,26 @@ class Candle:
             if self.percentageheight < 0:
                 self.percentageheight = 0
 
+            # Center candle for page 2
+            if config.current_page == 2:
+                candle_x = WIDTH // 2 - self.width // 2
+                candle_y = HEIGHT // 2 + 250
+            else:
+                candle_x = self.x
+                candle_y = self.y
+
             self.height_1 = random.uniform(0.92, 1.08) * self.height_1
             if self.height_1 > 1.5 * self.height_1_default:
                 self.height_1 = 1.5 * self.height_1_default
             elif self.height_1 < 0.5 * self.height_1_default:
                 self.height_1 = 0.5 * self.height_1_default
 
-            self.rectcandle1 = pygame.Rect(self.x, self.y - self.height_5 - self.percentageheight * 0.01 * self.height_4 - self.height_3 - self.height_2 - self.height_1 + 4, self.width, self.height_1)
-            #self.rectcandle23 = pygame.Rect(self.x, self.y - self.height_5 - self.percentageheight * 0.01 * self.height_4 - self.height_2_3 + 4, self.width, self.height_2_3)
-            self.rectcandle2 = pygame.Rect(self.x, self.y - self.height_5 - self.percentageheight * 0.01 * self.height_4 - self.height_3 - self.height_2 + 4, self.width, self.height_2)
-            self.rectcandle3 = pygame.Rect(self.x, self.y - self.height_5 - self.percentageheight * 0.01 * self.height_4 - self.height_3 + 4, self.width, self.height_3)
-            self.rectcandle4 = pygame.Rect(self.x, self.y - self.height_5 - self.percentageheight * 0.01 * self.height_4 + 2, self.width, self.percentageheight * 0.01 * self.height_4)
-            self.rectcandle5 = pygame.Rect(self.x, self.y - self.height_5, self.width, self.height_5)
+            self.rectcandle1 = pygame.Rect(candle_x, candle_y - self.height_5 - self.percentageheight * 0.01 * self.height_4 - self.height_3 - self.height_2 - self.height_1 + 4, self.width, self.height_1)
+            #self.rectcandle23 = pygame.Rect(candle_x, candle_y - self.height_5 - self.percentageheight * 0.01 * self.height_4 - self.height_2_3 + 4, self.width, self.height_2_3)
+            self.rectcandle2 = pygame.Rect(candle_x, candle_y - self.height_5 - self.percentageheight * 0.01 * self.height_4 - self.height_3 - self.height_2 + 4, self.width, self.height_2)
+            self.rectcandle3 = pygame.Rect(candle_x, candle_y - self.height_5 - self.percentageheight * 0.01 * self.height_4 - self.height_3 + 4, self.width, self.height_3)
+            self.rectcandle4 = pygame.Rect(candle_x, candle_y - self.height_5 - self.percentageheight * 0.01 * self.height_4 + 2, self.width, self.percentageheight * 0.01 * self.height_4)
+            self.rectcandle5 = pygame.Rect(candle_x, candle_y - self.height_5, self.width, self.height_5)
 
             self.candle_1 = pygame.image.load("candle/candle_1.png").convert_alpha()
             self.candle_1 = pygame.transform.scale(self.candle_1, (self.width, self.height_1))
@@ -82,7 +91,7 @@ class Candle:
             else:
                 candle_percentage = Antonio_font.render(str(self.percentageheight)+"%", True, (250, 250, 250))
             
-            screen.blit(candle_percentage, (self.x, self.y))
+            screen.blit(candle_percentage, (candle_x, candle_y))
 
             if self.percentageheight > 0:
                 screen.blit(self.candle_1, self.rectcandle1)

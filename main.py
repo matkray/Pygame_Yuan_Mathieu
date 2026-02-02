@@ -44,7 +44,7 @@ player_1 = Person()
 candle = Candle(player_1)
 time_2 = 0
 timer = False
-config.current_page = 0
+config.current_page = 8
 
 pause_text = "PAUSE"
 
@@ -72,62 +72,232 @@ Antonio_font_big = pygame.font.Font('Antonio-Bold.ttf', 80)
 #end text stuff:#####################################
 
 #create wachs:#######################################
-wachs_1 = Wachs(0.1*WIDTH, 0.5*HEIGHT, 0, player_1, candle)
+wachs_1_1 = Wachs(200, HEIGHT - 500 - 40, 1, player_1, candle)
+
+wachs_2_1 = Wachs((WIDTH-100) // 3, HEIGHT - 40, 2, player_1, candle)
+wachs_2_2 = Wachs((WIDTH-100) // 3 * 2, HEIGHT - 40, 2, player_1, candle)
+wachs_2_3 = Wachs(WIDTH - 100, HEIGHT - 40, 2, player_1, candle)
+
+wachs_3_1 = Wachs(750, 40, 3, player_1, candle)
+
+wachs_4_1 = Wachs(1100, 100, 4, player_1, candle)
+
+wachs_5_1 = Wachs(WIDTH - 150, HEIGHT - 200, 5, player_1, candle)
+
+wachs_6_1 = Wachs(400, HEIGHT - 250, 6, player_1, candle)
+
+wachs_8_1 = Wachs(WIDTH // 4 * 3 , HEIGHT // 2, 8, player_1, candle, 250, 250, True)
+
 #end create wachs:###################################
 
 #create rain:########################################
 raindrops = []
 
-width = 100
-height = 200
-for _ in range((width * height) // 1500):
-    raindrops.append(Raindrop(int(0.5* WIDTH), int(0.5*HEIGHT), width, height, 0, player_1, candle, 0))
+raindrop_0_1_x = 300
+raindrop_0_1_y = HEIGHT - 100
+raindrop_0_1_width = 100
+raindrop_0_1_height = 100
+for _ in range((raindrop_0_1_width * raindrop_0_1_height) // 1500):
+    raindrops.append(Raindrop(raindrop_0_1_x, raindrop_0_1_y, raindrop_0_1_width, raindrop_0_1_height, 0, player_1, candle, 0))
+
+raindrop_0_2_x = 850
+raindrop_0_2_y = HEIGHT - 100
+raindrop_0_2_width = 250
+raindrop_0_2_height = 100
+for _ in range((raindrop_0_2_width * raindrop_0_2_height) // 1500):
+    raindrops.append(Raindrop(raindrop_0_2_x, raindrop_0_2_y, raindrop_0_2_width, raindrop_0_2_height, 0, player_1, candle, 1))
+
+raindrop_3_1_x = 350
+raindrop_3_1_y = HEIGHT - 100
+raindrop_3_1_width = 200
+raindrop_3_1_height = 100
+for _ in range((raindrop_3_1_width * raindrop_3_1_height) // 1500):
+    raindrops.append(Raindrop(raindrop_3_1_x, raindrop_3_1_y, raindrop_3_1_width, raindrop_3_1_height, 3, player_1, candle, 2))
+
+raindrop_3_2_x = 1000
+raindrop_3_2_y = HEIGHT - 300
+raindrop_3_2_width = 200
+raindrop_3_2_height = 300
+for _ in range((raindrop_3_2_width * raindrop_3_2_height) // 1500):
+    raindrops.append(Raindrop(raindrop_3_2_x, raindrop_3_2_y, raindrop_3_2_width, raindrop_3_2_height, 3, player_1, candle, 3))
+
+raindrop_4_1_x = 550
+raindrop_4_1_y = HEIGHT - 350
+raindrop_4_1_width = 150
+raindrop_4_1_height = 100
+for _ in range((raindrop_4_1_width * raindrop_4_1_height) // 1500):
+    raindrops.append(Raindrop(raindrop_4_1_x, raindrop_4_1_y, raindrop_4_1_width, raindrop_4_1_height, 4, player_1, candle, 0))
+
+raindrop_5_1_x = 900
+raindrop_5_1_y = HEIGHT - 250
+raindrop_5_1_width = 250
+raindrop_5_1_height = 100
+for _ in range((raindrop_5_1_width * raindrop_5_1_height) // 1500):
+    raindrops.append(Raindrop(raindrop_5_1_x, raindrop_5_1_y, raindrop_5_1_width, raindrop_5_1_height, 5, player_1, candle, 0))
+
+raindrop_6_1_x = 850
+raindrop_6_1_y = HEIGHT - 100
+raindrop_6_1_width = 750
+raindrop_6_1_height = 100
+for _ in range((raindrop_6_1_width * raindrop_6_1_height) // 1500):
+    raindrops.append(Raindrop(raindrop_6_1_x, raindrop_6_1_y, raindrop_6_1_width, raindrop_6_1_height, 6, player_1, candle, 0))
+
+raindrop_7_1_x = 100
+raindrop_7_1_y = HEIGHT - 100
+raindrop_7_1_width = 350
+raindrop_7_1_height = 100
+for _ in range((raindrop_7_1_width * raindrop_7_1_height) // 1500):
+    raindrops.append(Raindrop(raindrop_7_1_x, raindrop_7_1_y, raindrop_7_1_width, raindrop_7_1_height, 7, player_1, candle, 0))
+
+raindrop_7_2_x = 750
+raindrop_7_2_y = HEIGHT - 100
+raindrop_7_2_width = 300
+raindrop_7_2_height = 100
+for _ in range((raindrop_7_2_width * raindrop_7_2_height) // 1500):
+    raindrops.append(Raindrop(raindrop_7_2_x, raindrop_7_2_y, raindrop_7_2_width, raindrop_7_2_height, 7, player_1, candle, 0))
+
+
 #end create rain#####################################
 
 #create wind:########################################
 windlist = []
 
-width = WIDTH - 100
-height = 800
-for _ in range((width * height) // 3000):
-    windlist.append(Wind(int(100), int(100), width, height, 0, player_1, 0, True))
+wind_0_1_x = 1100
+wind_0_1_y = HEIGHT - 450
+wind_0_1_width = 300
+wind_0_1_height = 100
+for _ in range((wind_0_1_width * wind_0_1_height) // 1500):
+    windlist.append(Wind(wind_0_1_x, wind_0_1_y, wind_0_1_width, wind_0_1_height, 0, player_1, 0, False))
+
+wind_3_1_x = 150
+wind_3_1_y = HEIGHT - 350
+wind_3_1_width = 200
+wind_3_1_height = 100
+for _ in range((wind_3_1_width * wind_3_1_height) // 1500):
+    windlist.append(Wind(wind_3_1_x, wind_3_1_y, wind_3_1_width, wind_3_1_height, 3, player_1, 0, True))
+
+wind_3_2_x = 850
+wind_3_2_y = HEIGHT - 700
+wind_3_2_width = 150
+wind_3_2_height = 100
+for _ in range((wind_3_2_width * wind_3_2_height) // 1500):
+    windlist.append(Wind(wind_3_2_x, wind_3_2_y, wind_3_2_width, wind_3_2_height, 3, player_1, 0, True))
+
+wind_4_1_x = 150
+wind_4_1_y = HEIGHT - 1000
+wind_4_1_width = 250
+wind_4_1_height = 300
+for _ in range((wind_4_1_width * wind_4_1_height) // 3000):
+    windlist.append(Wind(wind_4_1_x, wind_4_1_y, wind_4_1_width, wind_4_1_height, 4, player_1, 0, False))
+
+wind_5_1_x = 900
+wind_5_1_y = 250
+wind_5_1_width = 250
+wind_5_1_height = 100
+for _ in range((wind_5_1_width * wind_5_1_height) // 1500):
+    windlist.append(Wind(wind_5_1_x, wind_5_1_y, wind_5_1_width, wind_5_1_height, 5, player_1, 0, False))
+
+wind_5_2_x = 1150
+wind_5_2_y = HEIGHT - 350
+wind_5_2_width = 250
+wind_5_2_height = 200
+for _ in range((wind_5_2_width * wind_5_2_height) // 1500):
+    windlist.append(Wind(wind_5_2_x, wind_5_2_y, wind_5_2_width, wind_5_2_height, 5, player_1, 0, False))
+
+wind_6_1_x = 450
+wind_6_1_y = HEIGHT - 700
+wind_6_1_width = 600
+wind_6_1_height = 100
+for _ in range((wind_6_1_width * wind_6_1_height) // 1500):
+    windlist.append(Wind(wind_6_1_x, wind_6_1_y, wind_6_1_width, wind_6_1_height, 6, player_1, 0, False))
+
+wind_7_1_x = 900
+wind_7_1_y = 200
+wind_7_1_width = 200
+wind_7_1_height = 600
+for _ in range((wind_7_1_width * wind_7_1_height) // 1500):
+    windlist.append(Wind(wind_7_1_x, wind_7_1_y, wind_7_1_width, wind_7_1_height, 7, player_1, 0, False))
+
+wind_8_1_x = 100
+wind_8_1_y = 0
+wind_8_1_width = WIDTH
+wind_8_1_height = HEIGHT
+for _ in range((wind_8_1_width * wind_8_1_height) // 1500):
+    windlist.append(Wind(wind_8_1_x, wind_8_1_y, wind_8_1_width, wind_8_1_height, 8, player_1, 0, False))
+
 #end create wind#####################################
 
 #create Platform:####################################
-#0 left:
-platform_0_1 = Platform(0,0,50, HEIGHT, False, 0, 0)
-#0 center:
-platform_0_2 = Platform(50,HEIGHT - 100,WIDTH - 100, 100, False, 0, 0)
-platform_0_3 = Platform(0,-50,WIDTH, 70, False, 0, 0)
-platform_0_4 = Platform(200, 700, 200, 400, False, 0, 0)
-platform_0_5 = Platform(800, 200, 200, 500, False, 0, 0)
-platform_0_6 = Platform(500, 400, 200, 200, True, 0, -200)
-#0 right:
-platform_0_7 = Platform(WIDTH - 70,0,70, 0.5*HEIGHT, False, 0, 0)
-plaform_0_8 = Platform(WIDTH - 70,0.7*HEIGHT,70, 0.4*HEIGHT, False, 0, 0)
 
-#1 left:
-platform_1_1 = Platform(0,0,70, 0.5*HEIGHT, False, 1, 0)
-platform_1_2 = Platform(0,0.7*HEIGHT,70, 0.4*HEIGHT, False, 1, 0)
-#1 center:
-platform_1_3 = Platform(70, HEIGHT - 49, 0.9 * WIDTH, 50, False, 1, 0)
-platform_1_4 = Platform(200, 700, 200, 100, False, 1, 0)
-platform_1_5 = Platform(800, 200, 200, 100, False, 1, 0)
-platform_1_6 = Platform(500, 400, 200, 100, False, 1, 0)
-#1 right:
-platform_1_7 = Platform(WIDTH - 40,0,40, 0.5*HEIGHT, False, 1, 0)
-platform_1_8 = Platform(WIDTH - 40,0.85*HEIGHT,40, 0.4*HEIGHT, False, 1, 0)
+platform_0_1 = Platform(0, HEIGHT - 150, 300, 150, False, 0, 0)
+platform_0_2 = Platform(400, HEIGHT - 150, 150, 150, False, 0, 0)
+platform_0_3 = Platform(550, HEIGHT - 450, 300, 450, False, 0, 0)
+platform_0_4 = Platform(1100, HEIGHT - 350, 300, 350, False, 0, 0)
+platform_0_5 = Platform(1400, HEIGHT - 500, WIDTH - 1400, 500, False, 0, 0)
+platform_0_6 = Platform(0, 0, WIDTH, 5, False, 0, 0)
+platform_0_7 = Platform(0, HEIGHT - 5, WIDTH, 5, False, 0, 0)
 
-#2 left:
-platform_2_1 = Platform(0,0,60, 0.5*HEIGHT, False, 2, 0)
-platform_2_2 = Platform(0,0.7*HEIGHT,60, 0.4*HEIGHT, False, 2, 0)
-#2 center:
-platform_2_3 = Platform(0, HEIGHT - 49, 0.5 * WIDTH, 50, False, 2, 0)
-platform_2_4 = Platform(0.5 * WIDTH, HEIGHT - 99, 0.5 * WIDTH, 100, False, 2, 0)
-platform_2_5 = Platform(200, 700, 200, 100, False, 2, 0)
-platform_2_6 = Platform(800, 200, 200, 100, False, 2, 0)
-platform_2_7 = Platform(500, 400, 200, 100, False, 2, 0)
-#2 right:
+platform_1_1 = Platform(0, HEIGHT - 500, 400, 500, False, 1, 0)
+platform_1_2 = Platform(550, 0, 150, HEIGHT - 250, False, 1, 0)
+platform_1_3 = Platform(850, HEIGHT - 500, 200, 500, False, 1, 0)
+platform_1_4 = Platform(1200, 0, 100, HEIGHT - 250, False, 1, 0)
+platform_1_5 = Platform(1450, HEIGHT - 350, WIDTH - 1450, 350, False, 1, 0)
+platform_1_6 = Platform(0, 0, WIDTH, 5, False, 1, 0)
+platform_1_7 = Platform(0, HEIGHT - 5, WIDTH, 5, False, 1, 0)
+
+platform_2_1 = Platform(0, 0, WIDTH, 5, False, 2, 0)
+platform_2_2 = Platform(0, HEIGHT - 5, WIDTH, 5, False, 2, 0)
+
+platform_3_1 = Platform(150, HEIGHT - 250, 200, 250, False, 3, 0)
+platform_3_2 = Platform(550, HEIGHT - 200, 200, 200, False, 3, 0)
+platform_3_3 = Platform(550, HEIGHT - 550, 150, 200, False, 3, 0)
+platform_3_4 = Platform(850, HEIGHT - 600, 150, 600, False, 3, 0)
+platform_3_5 = Platform(850, 0, 150, 250, False, 3, 0)
+platform_3_6 = Platform(1200, HEIGHT - 700, 285, 700, False, 3, 0)
+platform_3_7 = Platform(0, 0, WIDTH, 5, False, 3, 0)
+platform_3_8 = Platform(0, HEIGHT - 5, WIDTH, 5, False, 3, 0)
+
+platform_4_1 = Platform(0, HEIGHT - 700, 400, 700, False, 4, 0)
+platform_4_2 = Platform(400, HEIGHT - 250, 300, 250, False, 4, 0)
+platform_4_3 = Platform(700, HEIGHT - 450, 100, 450, False, 4, 0)
+platform_4_4 = Platform(700, 0, 50, HEIGHT - 600, False, 4, 0)
+platform_4_5 = Platform(1000, HEIGHT - 250, 300, 250, False, 4, 0)
+platform_4_6 = Platform(1000, 100, 250, 500, True, 4, 250)
+platform_4_7 = Platform(1250, 0, WIDTH - 1150, HEIGHT - 550, False, 4, 0)
+platform_4_8 = Platform(0, 0, WIDTH, 5, False, 4, 0)
+platform_4_9 = Platform(0, HEIGHT - 5, WIDTH, 5, False, 4, 0)
+
+platform_5_1 = Platform(0, 0, 250, HEIGHT - 550, False, 5, 0)
+platform_5_2 = Platform(300, HEIGHT - 150, WIDTH - 400, 150, False, 5, 0)
+platform_5_3 = Platform(450, 350, 250, 400, True, 5, 100)
+platform_5_4 = Platform(900, 350, 250, 350, False, 5, 0)
+platform_5_5 = Platform(WIDTH - 100, HEIGHT - 450, 100, 450, False, 5, 0)
+platform_5_6 = Platform(0, 0, WIDTH, 5, False, 5, 0)
+platform_5_7 = Platform(0, HEIGHT - 5, WIDTH, 5, False, 5, 0)
+
+platform_6_1 = Platform(0, HEIGHT - 450, 250, 450, False, 6, 0)
+platform_6_2 = Platform(100, HEIGHT - 850, 50, 200, False, 6, 0)
+platform_6_3 = Platform(250, HEIGHT - 850, 200, 200, False, 6, 0)
+platform_6_4 = Platform(450, HEIGHT - 850, 300, 100, False, 6, 0)
+platform_6_5 = Platform(250, HEIGHT - 150, 600, 150, False, 6, 0)
+platform_6_6 = Platform(650, HEIGHT - 600, 400, 200, False, 6, 0)
+platform_6_7 = Platform(1250, HEIGHT - 750, 150, 250, True, 6, 350)
+platform_6_8 = Platform(WIDTH - 50, HEIGHT - 850, 50, 850, False, 6, 0)
+platform_6_9 = Platform(0, 0, WIDTH, 5, False, 6, 0)
+platform_6_10 = Platform(0, HEIGHT - 5, WIDTH, 5, False, 6, 0)
+
+platform_7_1 = Platform(0, HEIGHT - 850, 100, 850, False, 7, 0)
+platform_7_2 = Platform(250, HEIGHT - 400, 400, 400, False, 7, 0)
+platform_7_3 = Platform(350, 0, 225, HEIGHT - 600, False, 7, 0)
+platform_7_4 = Platform(900, 300, 200, 150, True, 7, 200)
+platform_7_5 = Platform(1050, HEIGHT - 250, 200, 250, False, 7, 0)
+platform_7_6 = Platform(1250, HEIGHT - 150, WIDTH - 1250, 150, False, 7, 0)
+platform_7_7 = Platform(1250, 0, WIDTH - 1250, HEIGHT - 450, False, 7, 0)
+platform_7_8 = Platform(0, 0, WIDTH, 5, False, 7, 0)
+platform_7_9 = Platform(0, HEIGHT - 5, WIDTH, 5, False, 7, 0)
+
+platform_8_1 = Platform(0, 0, 250, HEIGHT - 450, False, 8, 0)
+platform_8_2 = Platform(0, HEIGHT - 150, WIDTH, 150, False, 8, 0)
 
 #end create Platform:#################################
 
@@ -210,15 +380,16 @@ def ground():
 
 def ceiling():
     var_check_ceiling = horizontal_top_y + 20
-    while var_check_ceiling > 0 and True:
+    while var_check_ceiling >= 0 and True:
         if vertical_left_x > 0 and vertical_right_x < WIDTH:
-            color_top_left = screen.get_at((vertical_left_x, int(var_check_ceiling)))
-            color_top_right = screen.get_at((vertical_right_x, int(var_check_ceiling)))
-            if (color_top_left[:3] in platformscolor) or (color_top_right[:3] in platformscolor):
-                player_1.ceiling = var_check_ceiling
-                break
-            else:
-                var_check_ceiling -= 1
+            check_y = max(0, int(var_check_ceiling))
+            if check_y < HEIGHT:
+                color_top_left = screen.get_at((vertical_left_x, check_y))
+                color_top_right = screen.get_at((vertical_right_x, check_y))
+                if (color_top_left[:3] in platformscolor) or (color_top_right[:3] in platformscolor):
+                    player_1.ceiling = var_check_ceiling
+                    break
+            var_check_ceiling -= 1
         else:
             break
 
@@ -544,21 +715,22 @@ while running:
         if player_1.state == "jump" and player_1.vel_y > 0:
             # Don't check ceiling when touching walls - prevents false ceiling detection when jumping toward walls
             if not (player_1.collision_right or player_1.collision_left):
-                if 0 < horizontal_right_x < WIDTH and 0 < horizontal_top_y < HEIGHT and 0 < horizontal_left_x < WIDTH:
-                    color_top_right = screen.get_at((horizontal_right_x, horizontal_top_y))
-                    color_top_left = screen.get_at((horizontal_left_x, horizontal_top_y))
+                check_y = max(0, horizontal_top_y)
+                if 0 < horizontal_right_x < WIDTH and check_y < HEIGHT and 0 < horizontal_left_x < WIDTH:
+                    color_top_right = screen.get_at((horizontal_right_x, check_y))
+                    color_top_left = screen.get_at((horizontal_left_x, check_y))
                     if color_top_right[:3] in platformscolor or color_top_left[:3] in platformscolor:
                         ceiling()
                         player_1.y = player_1.ceiling + player_1.border
                         player_1.y += player_1.speed
                         player_1.vel_y = 0
-                elif WIDTH >= horizontal_left_x > 0 and 0 < horizontal_top_y < HEIGHT:
-                    color_top_left = screen.get_at((horizontal_left_x, horizontal_top_y))
+                elif WIDTH >= horizontal_left_x > 0 and check_y < HEIGHT:
+                    color_top_left = screen.get_at((horizontal_left_x, check_y))
                     if color_top_left[:3] in platformscolor:
                         player_1.y += player_1.speed
                         player_1.vel_y = 0
-                elif horizontal_left_x <= 0 and WIDTH > horizontal_right_x > 0 and 0 < horizontal_top_y < HEIGHT:
-                    color_top_right = screen.get_at((horizontal_right_x, horizontal_top_y))
+                elif horizontal_left_x <= 0 and WIDTH > horizontal_right_x > 0 and check_y < HEIGHT:
+                    color_top_right = screen.get_at((horizontal_right_x, check_y))
                     if color_top_right[:3] in platformscolor:
                         player_1.y += player_1.speed
                         player_1.vel_y = 0
@@ -589,6 +761,25 @@ while running:
         
         
     player_1.update(horizontal_right_x)
+
+    if player_1.command == True:
+        if player_1.x + player_1.width > WIDTH:
+            if config.current_page < config.max_pages:
+                config.current_page += 1
+                player_1.x = 0
+                ground()
+            else:
+                # Reached the end of the last page - show success screen
+                player_1.x = WIDTH - player_1.width
+                player_1.success = True
+        
+        if player_1.x < 0:
+            if config.current_page > 0:
+                config.current_page -= 1
+                player_1.x = WIDTH - player_1.width
+                ground()
+            else:
+                player_1.x = 0
 
     # Recalculate positions after movement for collision checks
     post_move_left_x = int(player_1.x - player_1.border)
@@ -698,7 +889,13 @@ while running:
     if player_1.y > HEIGHT:
         game_over()
     
-    if player_1.success == False and player_1.fail == False:
+    final_wax_expanding = False
+    for w in Wachs.instances:
+        if hasattr(w, 'is_final') and w.is_final and hasattr(w, 'expanding') and w.expanding:
+            final_wax_expanding = True
+            break
+    
+    if player_1.success == False and player_1.fail == False or final_wax_expanding:
         widthbefore = player_1.width
         print("player pngpath:", player_1.pngpath)
         image = pygame.image.load(player_1.pngpath).convert_alpha()
@@ -720,6 +917,59 @@ while running:
             player_1.x = player_1.x - player_1.width + widthbefore
         
         screen.blit(current_background, (0, 0))
+
+        if config.current_page == 0 and player_1.fail == False:
+            
+            move_text = Antonio_font.render("Use arrow keys to move left and right", True, (50, 255, 50))
+            screen.blit(move_text, (50, HEIGHT - 500))
+            
+            jump_text1 = Antonio_font.render("Use [Space] to jump", True, (0, 0, 0))
+            screen.blit(jump_text1, (450, HEIGHT - 700))
+            jump_text2 = Antonio_font.render("Hold [Up] to jump higher", True, (0, 0, 0))
+            screen.blit(jump_text2, (450, HEIGHT - 650))
+            
+            raindrop_warning = Antonio_font.render("Avoid the water!", True, (255, 0, 0))
+            screen.blit(raindrop_warning, (300 + 75 - raindrop_warning.get_width() // 2, HEIGHT - 250))
+            
+            wind_warning = Antonio_font.render("Careful! Wind pushes you", True, (255, 0, 0))
+            screen.blit(wind_warning, (1100, HEIGHT - 550))
+
+        if config.current_page == 1 and player_1.fail == False:
+            wax_text = Antonio_font.render("Collect the wax pieces to extend your timer", True, (255, 0, 0))
+            screen.blit(wax_text, (50, 400))
+            
+            wall_jump_text = Antonio_font.render("You can jump against walls too", True, (255, 0, 0))
+            screen.blit(wall_jump_text, (750, (HEIGHT // 2) - 100))
+
+        # Page 2 - centered instructions with red wavy underlines
+        if config.current_page == 2 and player_1.fail == False:
+            # Text line 1: "Win by getting to the end before your"
+            text1 = Antonio_font.render("Win by getting to the end before your", True, (0, 0, 0))
+            text1_rect = text1.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 60))
+            screen.blit(text1, text1_rect)
+            
+            # Draw red wavy underline for text1
+            start_x = text1_rect.left
+            end_x = text1_rect.right
+            y_pos = text1_rect.bottom + 5
+            amplitude = 3
+            frequency = 10
+            for x in range(start_x, end_x, 2):
+                wave_y = y_pos + int(amplitude * (x % (frequency * 2) - frequency) / frequency)
+                pygame.draw.line(screen, (255, 0, 0), (x, wave_y), (min(x + 2, end_x), wave_y), 2)
+            
+            # Text line 2: "candle burns out!"
+            text2 = Antonio_font.render("candle burns out!", True, (0, 0, 0))
+            text2_rect = text2.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 20))
+            screen.blit(text2, text2_rect)
+            
+            # Draw red wavy underline for text2
+            start_x2 = text2_rect.left
+            end_x2 = text2_rect.right
+            y_pos2 = text2_rect.bottom + 5
+            for x in range(start_x2, end_x2, 2):
+                wave_y = y_pos2 + int(amplitude * (x % (frequency * 2) - frequency) / frequency)
+                pygame.draw.line(screen, (255, 0, 0), (x, wave_y), (min(x + 2, end_x2), wave_y), 2)
 
         # draw ghost:
         if played_before == True:
@@ -754,12 +1004,11 @@ while running:
         
         for wind in windlist:
             draw = wind.draw(screen)
-            config.check_wind == True
+            config.check_wind = True
 
         for platform in Platform.instances:
             draw = platform.draw(screen)
-
-        
+     
 
     if candle.percentageheight <= 0:
          game_over()
@@ -781,9 +1030,37 @@ while running:
                 ghost_best = ghost_current
             ghost_current = []
 
-        success = Antonio_font_big.render("YOU MADE IT", True, (0, 255, 0))
-        center_text = success.get_rect(center=(WIDTH // 2, HEIGHT // 2))
-        screen.blit(success, center_text)
+        # Check if final wax piece is still expanding
+        final_wax_expanding = False
+        for w in Wachs.instances:
+            if w.is_final and w.expanding:
+                final_wax_expanding = True
+                # Continue drawing expansion animation
+                w.draw(screen)
+                text_y = HEIGHT // 2 - 100
+                for dx in [-3, -2, -1, 0, 1, 2, 3]:
+                    for dy in [-3, -2, -1, 0, 1, 2, 3]:
+                        if dx != 0 or dy != 0:
+                            outline = Antonio_font_big.render("YOU MADE IT!", True, (0, 0, 0))
+                            outline_rect = outline.get_rect(center=(WIDTH // 2 + dx, text_y + dy))
+                            screen.blit(outline, outline_rect)
+                success = Antonio_font_big.render("YOU MADE IT!", True, (0, 255, 0))
+                center_text = success.get_rect(center=(WIDTH // 2, text_y))
+                screen.blit(success, center_text)
+                break
+        
+        # Show text after expansion completes (if not already showing)
+        if not final_wax_expanding:
+            screen.fill((0, 0, 0))
+            for dx in [-3, -2, -1, 0, 1, 2, 3]:
+                for dy in [-3, -2, -1, 0, 1, 2, 3]:
+                    if dx != 0 or dy != 0:
+                        outline = Antonio_font_big.render("YOU MADE IT!", True, (0, 0, 0))
+                        outline_rect = outline.get_rect(center=(WIDTH // 2 + dx, HEIGHT // 2 + dy))
+                        screen.blit(outline, outline_rect)
+            success = Antonio_font_big.render("YOU MADE IT!", True, (0, 255, 0))
+            center_text = success.get_rect(center=(WIDTH // 2, HEIGHT // 2))
+            screen.blit(success, center_text)
 
     
     if player_1.settings_page == True:
